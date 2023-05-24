@@ -1,0 +1,193 @@
+<style>
+    *{
+        margin:0px;
+    }
+    body{
+        background-color:red;
+    }
+#clock{
+    background-color:yellow;
+    width:500px;
+    height:500px;
+    position: relative;
+    top:10%;
+    left:30%;
+    border-radius: 50%;
+    box-sizing: border-box;
+    z-index: 1;
+}
+#twelve{
+    text-align: center;
+    font-size:30px;
+    font-weight: bolder;
+    position:relative;
+    padding-left:16px;
+}
+#one{
+    font-size:30px;
+    font-weight: bolder;
+    padding-left:365px;
+}
+#two{
+    font-size:30px;
+    font-weight: bolder;
+    padding-left:440px;
+    padding-top: 50px;
+}
+#three{
+    font-size:30px;
+    font-weight: bolder;
+    padding-top:75px;
+    padding-left:470px;
+}
+#four{
+    font-size:30px;
+    font-weight: bolder;
+    padding-top:80px;
+    padding-left:450px;
+}
+#five{
+    font-size:30px;
+    font-weight: bolder;
+    padding-top: 50px;
+    padding-left: 370px;
+}
+#six{
+    font-size:30px;
+    font-weight: bolder;
+    padding-top: 0px;
+    padding-left: 250px;
+}
+#seven{
+    font-size:30px;
+    font-weight: bolder;
+    position: relative;
+    top:-65px;
+    left:130px;
+}
+#eight{
+    font-size:30px;
+    font-weight: bolder;
+    position: relative;
+    top:-190px;
+    left:60px;
+}
+#nine{
+    font-size:30px;
+    font-weight: bolder;
+    position: relative;
+    top:-340px;
+    left:30px;
+}
+#ten{
+    font-size:30px;
+    font-weight: bolder;
+    position: relative;
+    top:-480px;
+    left:50px;
+}
+#eleven{
+    font-size:30px;
+    font-weight: bolder;
+    position: relative;
+    top:-600px;
+    left:130px;
+}
+#second-needle{
+    position:absolute;
+    width:5px;
+    height:230px;
+    background-color:red;
+    left:48.8%;
+    top:80px;
+    border-radius: 10px;
+    z-index:1;
+    transform-origin: bottom;
+    transform:rotateZ(0deg)
+}
+#minute-needle{
+    position:absolute;
+    width:10px;
+    height:190px;
+    background-color:black;
+    left:48.7%;
+    top:120px;
+    border-radius: 10px;
+    z-index:1;
+    transform-origin: bottom;
+    transform:rotateZ(0deg)
+}
+#hour-needle{
+    position:absolute;
+    width:10px;
+    height:140px;
+    background-color:black;
+    left:48.7%;
+    top:170px;
+    border-radius: 10px;
+    z-index:1;
+    transform-origin: bottom;
+    transform:rotateZ(0deg)
+}
+</style>
+
+<body>
+    <div id="clock">
+        <div id="twelve">
+            12
+        </div>
+        <div id="one">
+            1
+        </div>
+        <div id="two">
+            2
+        </div>
+        <div id="three">
+            3
+        </div>
+        <div id="four">
+            4
+        </div>
+        <div id="five">
+            5
+        </div>
+        <div id="six">
+            6
+        </div>
+        <div id="seven">
+            7
+        </div>
+        <div id="eight">
+            8
+        </div>
+        <div id="nine">
+            9
+        </div>
+        <div id="ten">
+            10
+        </div>
+        <div id="eleven">
+            11
+        </div>
+    </div>
+    <div id="second-needle">
+
+    </div>
+    <div id="minute-needle">
+
+    </div>
+    <div id="hour-needle">
+
+    </div>
+</body>
+<script>
+    setInterval(function(){
+        let time = new Date()
+        let second = (time.getSeconds()/60);
+        let minute = ((second+time.getMinutes())/60);
+        let hour = ((time.getHours()+minute)/12);
+        document.getElementById("second-needle").style.transform="rotateZ("+(second*360)+"deg)";
+        document.getElementById("minute-needle").style.transform="rotateZ("+(minute*360)+"deg)";
+        document.getElementById("hour-needle").style.transform="rotateZ("+(hour*360)+"deg)";                  
+    },1000)
+</script>

@@ -1,0 +1,488 @@
+import time
+from tkinter import *
+from tkinter import ttk
+import sqlite3
+from tkinter import messagebox
+from tkcalendar import *
+from time import *
+def IsNumerical(input):
+    input = str(input)
+    for x in input:
+        if x=='.' or x.isdigit():
+            continue
+        else:
+            return 0
+    return 1
+window=Tk()
+window.attributes("-fullscreen",True)
+conn=sqlite3.connect('Patient.db')
+c=conn.cursor()
+
+discharged_patient_name=""
+
+Grid.rowconfigure(window,0,weight=1)
+Grid.rowconfigure(window,1,weight=1)
+Grid.rowconfigure(window,2,weight=1)
+Grid.rowconfigure(window,3,weight=1)
+
+def Submit():
+    global first_name,middle_name,last_name,doctor_name,room,Diseases,v,Diseases,Male,Female
+    if first_name['fg']=="green" and middle_name['fg']=="green" and last_name['fg']=="green" and doctor_name['fg']=="green" and room['fg']=="green" and v.get() != 0  and Diseases.curselection():
+        gender="male" if v.get()==1 else "female"
+        c.execute(f"""
+            INSERT INTO patient VALUES('{first_name.get()}','{middle_name.get()}',
+            '{last_name.get()}','{gender}','{doctor_name.get()}',
+            '{room.get()}','false')
+            """)
+        conn.commit()
+        c.execute("SELECT MAX(ROWID) FROM patient")
+        conn.commit()
+        row_id = c.fetchall()[0][0]
+        for x in Diseases.curselection():
+            c.execute(f"""
+                INSERT INTO patient_diseases VALUES('{first_name.get()}','{middle_name.get()}',
+                '{last_name.get()}','{Diseases.get(x)}',{row_id}
+                )
+                """)
+            conn.commit()
+        first_name.delete(0,END)
+        middle_name.delete(0,END)
+        last_name.delete(0,END)
+        doctor_name.delete(0,END)
+        room.delete(0,END)
+        Diseases.selection_clear(0,END)
+    else:
+        messagebox.showerror("Error in Data","There is Error in the filling out of the form")
+def Submit2():
+    global Patients,c1,comment_box,bill
+    name=""
+    patient_first_name=""
+    patient_middle_name=""
+    patient_last_name=""
+    comments = ""
+    row_id=0
+    if Patients.curselection() and IsNumerical(bill.get())==1:
+        name = Patients.get(ANCHOR)
+        name = name.split()
+        patient_first_name = name[1]
+        patient_middle_name = name[2]
+        patient_last_name = name[3]
+        row_id = str(name[0])
+        row_id = row_id.replace(".","")
+        if comment_box.get("1.0","1.30")=="Enter Comments here.....":
+            comments = "no comments"
+        else:
+            comments = comment_box.get("1.0",END)
+
+        c.execute(f"UPDATE patient SET discharged = 'true' WHERE ROWID = {row_id}")
+        conn.commit()
+        c.execute(f"""INSERT INTO Discharged VALUES(
+        '{patient_first_name}','{patient_middle_name}',
+        '{patient_last_name}',{bill.get()},
+        '{c1.get_date()}','{strftime('%D')}',{row_id},'{comments}'
+        )""")
+        conn.commit()
+        comment_box.delete('1.0',END)
+        comment_box.insert('1.0','Enter Comments here.....')
+        Patients.selection_clear(0,END)
+        Patients.delete(0,END)
+        bill.delete(0,END)
+        c.execute("SELECT ROWID || '. ' || first_name || ' ' || middle_name || ' '|| last_name FROM patient WHERE discharged='false'")
+        for x in c.fetchall():
+            Patients.insert(END, x[0])
+    else:
+        messagebox.showerror("Error in Form","Please make sure all the inputted data is correct")
+def Back():
+    global Patients,headings,patient_list
+    admit_patient.grid(row=0, column=0, sticky="nsew")
+    search_patient.grid(row=1, column=0, sticky="nsew")
+    discharge_patient.grid(row=2, column=0, sticky="nsew")
+    Display_patient.grid(row=3, column=0, sticky="nsew")
+    main_menu.place_forget()
+    first_name_label.place_forget()
+    first_name.place_forget()
+    middle_name_label.place_forget()
+    middle_name.place_forget()
+    last_name_label.place_forget()
+    last_name.place_forget()
+    doctor_name_label.place_forget()
+    doctor_name.place_forget()
+    room_label.place_forget()
+    room.place_forget()
+    Gender.place_forget()
+    Male.place_forget()
+    Female.place_forget()
+    Disease_Label.place_forget()
+    Diseases.place_forget()
+    Submit_Button.place_forget()
+    Submit_Button2.place_forget()
+    Patients.place_forget()
+    comment_box.place_forget()
+    label_calender.place_forget()
+    c1.place_forget()
+    label_bill.place_forget()
+    bill.place_forget()
+    Patients.delete(0,END)
+    search_box.place_forget()
+    patient_firstname.place_forget()
+    patient_middlename.place_forget()
+    patient_lastname.place_forget()
+    patient_room.place_forget()
+    patient_doctor.place_forget()
+    patient_discharged.place_forget()
+    patient_gender.place_forget()
+    admitted_patients.place_forget()
+    discharged_patients.place_forget()
+    patient_diseases.place_forget()
+    patient_bill.place_forget()
+    admitted.place_forget()
+    discharged.place_forget()
+    enrollment.place_forget()
+    patient_comment.place_forget()
+    patient_disease.place_forget()
+    for x in patient_list:
+        x.destroy()
+def Check_FirstName(a,b,c):
+    global first_name
+    if len(first_name_variable.get())>2:
+        first_name['fg']="green"
+    elif len(first_name_variable.get())<=2:
+        first_name['fg']="red"
+def Check_middleName(a,b,c):
+    global middle_name
+    if len(middle_name_variable.get())>2:
+        middle_name['fg']="green"
+    elif len(middle_name_variable.get())<=2:
+        middle_name['fg']="red"
+def Check_lastName(a,b,c):
+    global last_name
+    if len(last_name_variable.get())>2:
+        last_name['fg']="green"
+    elif len(last_name_variable.get())<=2:
+        last_name['fg']="red"
+def Check_Doctor(a,b,c):
+    global doctor_name
+    if len(doctor_name_variable.get())>2:
+        doctor_name['fg']="green"
+    elif len(doctor_name_variable.get())<=2:
+        doctor_name['fg']="red"
+def Check_Room(a,b,c):
+    global room
+    if len(room_variable.get())==5:
+        value = str(room.get())
+        if value[0].isalpha()==True and value[1].isalpha()==True and value[2].isdigit()==True and value[3].isdigit()==True and value[4].isdigit()==True:
+            room['fg']="green"
+        else:
+            room['fg']="red"
+    else:
+        room['fg']="red"
+main_menu = Button(window,text="Return to Main Menu",font=("times",20),command=Back)
+
+first_name_label = Label(window,text="First-Name",font=("times",15))
+
+first_name_variable = StringVar()
+first_name = Entry(window,width=25,fg="red",textvariable=first_name_variable)
+first_name_variable.trace('w',Check_FirstName)
+
+middle_name_label = Label(window,text="Middle-Name",font=("times",15))
+
+middle_name_variable = StringVar()
+middle_name = Entry(window,width=25,fg="red",textvariable=middle_name_variable)
+middle_name_variable.trace('w',Check_middleName)
+
+last_name_label = Label(window,text="Last-Name",font=("times",15))
+last_name_variable = StringVar()
+last_name = Entry(window,width=25,fg="red",textvariable=last_name_variable)
+last_name_variable.trace('w',Check_lastName)
+
+doctor_name_label = Label(window,text="Doctor",font=("times",15))
+
+doctor_name_variable = StringVar()
+doctor_name = Entry(window,width=25,fg="red",textvariable=doctor_name_variable)
+doctor_name_variable.trace('w',Check_Doctor)
+
+room_label = Label(window,text="Room-Number",font=("times",15))
+
+room_variable = StringVar()
+room = Entry(window,width=25,fg="red",textvariable=room_variable)
+room_variable.trace('w',Check_Room)
+
+Gender = Label(window,text="Gender",font=("times",20))
+
+v = IntVar()
+Male = Radiobutton(window,text="Male",variable=v,value=1)
+Male.deselect()
+
+Female = Radiobutton(window,text="Female",variable=v,value=2)
+Female.deselect()
+
+Disease_Label = Label(window,text="Diseases",font=("times",20))
+Diseases = Listbox(window,height=5,selectmode="multiple")
+Diseases.insert(END,"Heart Disease")
+Diseases.insert(END,"Skin Disease")
+Diseases.insert(END,"Bone Disease")
+Diseases.insert(END,"Blood Disease")
+Diseases.insert(END,"Brain Disease")
+
+Submit_Button = Button(window,text="Submit",font=("times",20),width=20,command=Submit)
+
+def Admit():
+    global admit_patient,search_patient,discharge_patient,Display_patient
+    admit_patient.grid_forget()
+    search_patient.grid_forget()
+    discharge_patient.grid_forget()
+    Display_patient.grid_forget()
+    main_menu.place(x=80, y=300)
+    first_name_label.place(x=600, y=50)
+    first_name.place(x=570, y=80)
+    middle_name_label.place(x=590, y=130)
+    middle_name.place(x=570, y=160)
+    last_name_label.place(x=600, y=200)
+    last_name.place(x=570, y=230)
+    doctor_name_label.place(x=615, y=280)
+    doctor_name.place(x=570, y=310)
+    room_label.place(x=590, y=350)
+    room.place(x=570, y=380)
+    Gender.place(x=350, y=500)
+    Male.place(x=300, y=550)
+    Female.place(x=400, y=550)
+    Disease_Label.place(x=750, y=500)
+    Diseases.place(x=750, y=550)
+    Submit_Button.place(x=1000, y=300)
+
+def comment_function(event):
+    global comment_box
+    if comment_box.get("1.0","1.30")=="Enter Comments here.....":
+        comment_box.delete("1.0",END)
+def comment_function2(event):
+    global comment_box
+    if len(comment_box.get("1.0",END))==1:
+        comment_box.insert("0.1", "Enter Comments here.....")
+
+def Selection(event):
+    global Patients,discharged_patient_name
+    discharged_patient_name = Patients.get(ANCHOR)
+
+Submit_Button2 = Button(window,text="Submit",font=("times",20),width=20,command=Submit2)
+Patients = Listbox(window,width=50,height=15)
+
+Patients.bind("<<ListboxSelect>>",Selection)
+
+comment_box = Text(window,width=50,height=15)
+comment_box.insert("0.1","Enter Comments here.....")
+comment_box.bind("<FocusIn>",comment_function)
+comment_box.bind("<FocusOut>",comment_function2)
+
+label_calender = Label(window,text="Enter Date of Admittance",font=("times",15))
+c1 = Calendar(window,selectmode="day",year=2021,month=8,day=31)
+
+label_bill = Label(window,text="Enter Billing Amount",font=("times",20))
+bill = Entry(window,width=15,font=("times",25))
+
+
+def Discharge():
+    global admit_patient, search_patient, discharge_patient, Display_patient
+    admit_patient.grid_forget()
+    search_patient.grid_forget()
+    discharge_patient.grid_forget()
+    Display_patient.grid_forget()
+    main_menu.place(x=50, y=100)
+    Submit_Button2.place(x=30, y=180)
+    Patients.place(x=500, y=20)
+    c.execute("SELECT ROWID || '. ' || first_name || ' ' || middle_name || ' '|| last_name FROM patient WHERE discharged='false'")
+    for x in c.fetchall():
+        Patients.insert(END, x[0])
+    comment_box.place(x=850, y=20)
+    label_calender.place(x=520, y=410)
+    c1.place(x=500, y=450)
+    label_bill.place(x=900, y=400)
+    bill.place(x=900, y=450)
+
+def Search(event):
+    global List,search_box,patient_list
+    global patient_firstname,patient_middlename,patient_lastname
+    global patient_gender,patient_doctor,patient_room,patient_discharged
+    for x in patient_list:
+        x.destroy()
+    patient = str(search_box.get())
+    patient = patient.split()
+
+    patient_firstname.place(x=30, y=100)
+    patient_middlename.place(x=230, y=100)
+    patient_lastname.place(x=430, y=100)
+    patient_gender.place(x=630, y=100)
+    patient_doctor.place(x=830, y=100)
+    patient_room.place(x=1030, y=100)
+    patient_discharged.place(x=1230, y=100)
+    c.execute(f"""SELECT * FROM patient WHERE first_name = '{patient[0]}'
+    and middle_name = '{patient[1]}' and last_name = '{patient[2]}'""")
+    conn.commit()
+    increment = 150
+    for x in c.fetchall():
+        for y in range(0, len(x)):
+            label2 = Label(window, text=x[y], font=("times", 10, "bold"))
+            patient_list.append(label2)
+        patient_list[-1].place(x=1250, y=increment)
+        patient_list[-2].place(x=1040, y=increment)
+        patient_list[-3].place(x=830, y=increment)
+        patient_list[-4].place(x=640, y=increment)
+        patient_list[-5].place(x=440, y=increment)
+        patient_list[-6].place(x=240, y=increment)
+        patient_list[-7].place(x=40, y=increment)
+        increment += 50
+
+def search_patient():
+    global search_box,List
+    List=[]
+    search_box.set("Search Patient")
+    admit_patient.grid_forget()
+    search_patient.grid_forget()
+    discharge_patient.grid_forget()
+    Display_patient.grid_forget()
+    main_menu.place(x=100,y=20)
+    search_box.place(x=600,y=50)
+    c.execute("SELECT DISTINCT (first_name || ' ' || middle_name || ' ' || last_name) FROM patient")
+    conn.commit()
+    for x in c.fetchall():
+        List.append(x[0])
+    search_box['values'] = List
+
+
+List = []
+criteria_list = ['First-Name','Middle-Name','Last-Name','Gender','Doctor','Room','Discharged']
+patient_list = []
+patient_firstname = Label(window,text = "First-Name",font=("times",15,"bold","underline"))
+patient_middlename = Label(window,text = "Middle-Name",font=("times",15,"bold","underline"))
+patient_lastname = Label(window,text = "Last-Name",font=("times",15,"bold","underline"))
+patient_gender = Label(window,text = "Gender",font=("times",15,"bold","underline"))
+patient_doctor = Label(window,text = "Doctor",font=("times",15,"bold","underline"))
+patient_room = Label(window,text = "Room",font=("times",15,"bold","underline"))
+patient_discharged = Label(window,text = "Discharged",font=("times",15,"bold","underline"))
+
+
+def Admitted():
+    global main_menu,admitted_patients,discharged_patients,patient_diseases
+    main_menu.place(x=550,y=20)
+    admitted_patients.place_forget()
+    discharged_patients.place_forget()
+    patient_diseases.place_forget()
+    patient_firstname.place(x=130,y=130)
+    patient_middlename.place(x=330,y=130)
+    patient_lastname.place(x=530,y=130)
+    patient_gender.place(x=730,y=130)
+    patient_doctor.place(x=930,y=130)
+    patient_room.place(x=1130,y=130)
+
+    c.execute("SELECT * FROM patient WHERE discharged = 'false'")
+    conn.commit()
+    increment = 180
+    for x in c.fetchall():
+        for y in range(0, len(x)-1):
+            label2 = Label(window, text=x[y], font=("times", 10, "bold"))
+            patient_list.append(label2)
+        patient_list[-1].place(x=1130, y=increment)
+        patient_list[-2].place(x=930, y=increment)
+        patient_list[-3].place(x=730, y=increment)
+        patient_list[-4].place(x=530, y=increment)
+        patient_list[-5].place(x=330, y=increment)
+        patient_list[-6].place(x=130, y=increment)
+        increment += 50
+
+
+patient_bill = Label(window,text="Billed Amount",font=("times",15,"bold","underline"))
+admitted = Label(window,text="Admittance Date",font=("times",15,"bold","underline"))
+discharged = Label(window,text="Date of Discharge",font=("times",15,"bold","underline"))
+enrollment = Label(window,text="Admittance Number",font=("times",15,"bold","underline"))
+patient_comment = Label(window,text="Service Comments",font=("times",15,"bold","underline"))
+def Discharged():
+    global main_menu, admitted_patients, discharged_patients, patient_diseases
+    main_menu.place(x=550, y=20)
+    admitted_patients.place_forget()
+    discharged_patients.place_forget()
+    patient_diseases.place_forget()
+    patient_firstname.place(x=10, y=130)
+    patient_middlename.place(x=150, y=130)
+    patient_lastname.place(x=290, y=130)
+    patient_bill.place(x=430,y=130)
+    admitted.place(x=600,y=130)
+    discharged.place(x=780,y=130)
+    enrollment.place(x=950,y=130)
+    patient_comment.place(x=1150,y=130)
+
+    c.execute("SELECT * FROM Discharged")
+    conn.commit()
+    increment = 180
+    for x in c.fetchall():
+        for y in range(0, len(x)):
+            label2 = Label(window, text=x[y], font=("times", 10, "bold"))
+            patient_list.append(label2)
+        patient_list[-1].place(x=1150, y=increment)
+        patient_list[-2].place(x=950, y=increment)
+        patient_list[-3].place(x=780, y=increment)
+        patient_list[-4].place(x=600, y=increment)
+        patient_list[-5].place(x=430, y=increment)
+        patient_list[-6].place(x=290, y=increment)
+        patient_list[-7].place(x=150, y=increment)
+        patient_list[-8].place(x=10, y=increment)
+        increment += 50
+
+patient_disease = Label(window,text="Diseases",font=("times",15,"bold","underline"))
+def Disease():
+    global main_menu, admitted_patients, discharged_patients, patient_diseases
+    main_menu.place(x=550, y=20)
+    admitted_patients.place_forget()
+    discharged_patients.place_forget()
+    patient_diseases.place_forget()
+    patient_firstname.place(x=100, y=130)
+    patient_middlename.place(x=350, y=130)
+    patient_lastname.place(x=600, y=130)
+    patient_disease.place(x=850,y=130)
+    enrollment.place(x=1100, y=130)
+
+    c.execute("SELECT * FROM patient_diseases")
+    conn.commit()
+    increment = 180
+    for x in c.fetchall():
+        for y in range(0, len(x)):
+            label2 = Label(window, text=x[y], font=("times", 10, "bold"))
+            patient_list.append(label2)
+        patient_list[-1].place(x=1100, y=increment)
+        patient_list[-2].place(x=850, y=increment)
+        patient_list[-3].place(x=600, y=increment)
+        patient_list[-4].place(x=350, y=increment)
+        patient_list[-5].place(x=100, y=increment)
+        increment += 50
+def Display_Menu():
+    global admitted_patients,discharged_patients,patient_diseases,main_menu
+    admit_patient.grid_forget()
+    search_patient.grid_forget()
+    discharge_patient.grid_forget()
+    Display_patient.grid_forget()
+    admitted_patients.place(x=510, y=150)
+    discharged_patients.place(x=500, y=230)
+    patient_diseases.place(x=505, y=310)
+    main_menu.place(x=490, y=390)
+
+search_box = ttk.Combobox(window)
+search_box.bind("<<ComboboxSelected>>",Search)
+
+admitted_patients = Button(window,text="Admitted Patients",font=("times",20),command=Admitted)
+
+discharged_patients = Button(window,text="Discharged Patients",font=("times",20),command=Discharged)
+
+patient_diseases = Button(window,text="Patient Diseases",font=("times",23),command=Disease)
+
+Grid.columnconfigure(window,0,weight=1)
+admit_patient = Button(window,text="Admit Patient",font=("times",20),command=Admit)
+admit_patient.grid(row=0,column=0,sticky="nsew")
+
+search_patient = Button(window,text="Search Patient",font=("times",20),command=search_patient)
+search_patient.grid(row=1,column=0,sticky="nsew")
+
+discharge_patient = Button(window,text="Discharge Patient",font=("times",20),command=Discharge)
+discharge_patient.grid(row=2,column=0,sticky="nsew")
+
+Display_patient = Button(window,text="Display Patients",font=("times",20),command=Display_Menu)
+Display_patient.grid(row=3,column=0,sticky="nsew")
+
+window.mainloop()

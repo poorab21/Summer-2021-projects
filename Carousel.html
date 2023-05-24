@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin:0px;
+    }
+    #carousel{
+        width:600px;
+        position:relative;
+        margin-left:30%;
+    }
+    #carousel-item1,#carousel-item2,#carousel-item3{
+        max-width: 600px;
+        width:600px;
+    }
+    #carousel-item1 > img , #carousel-item2 > img , #carousel-item3 > img{
+        max-width: 600px;
+        width:100%;
+    } 
+    #action-buttons{
+        display: flex;
+        width:100%;
+        justify-content: space-between;
+        position:absolute;
+        top:45%;
+    }
+    button{
+        cursor: pointer;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+    .visible{
+        display:block;
+    }
+    .invisible{
+        display:none;
+    }
+    #Prev > button{
+        border-radius: 50%;
+        width:50px;
+        height:50px;
+    }
+    #Next > button{
+        border-radius: 50%;
+        width:50px;
+        height:50px;
+    }
+    #indicators{
+        display:flex;
+        position: absolute;
+        left:39%;
+        top:80%;   
+    }
+    #btn1,#btn2,#btn3{
+        border:1px solid black;
+        width:50px;
+        height:20px;
+        background-color: red;
+    }
+</style>
+<body>
+    <div id="carousel">
+        <div id="carousel-item1" class="visible">
+            <img src="batman.jpg">
+        </div>
+        <div id="carousel-item2" class="invisible">
+            <img src="ford.jpg">
+        </div>
+        <div id="carousel-item3" class="invisible">
+            <img src="joker.png">
+        </div>
+        <div id="action-buttons">
+            <div id="Prev">
+                <button aria-label="previous">
+                    <
+                </button>
+            </div>
+            <div id="Next" aria-label="next">
+                <button>
+                    >
+                </button>
+            </div>
+        </div>
+        <div id="indicators">
+            <div id="btn1" style="background-color:white">
+                
+            </div>
+            <div id="btn2">
+                
+            </div>
+            <div id="btn3">
+                
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+<script>
+    var current = -1;
+    var img1 = document.getElementById("carousel-item1");
+    var img2 = document.getElementById("carousel-item2");
+    var img3 = document.getElementById("carousel-item3");
+    const img_arr = [img1,img2,img3];
+
+    var button1 = document.getElementById("btn1");
+    var button2 = document.getElementById("btn2");
+    var button3 = document.getElementById("btn3");
+    var btn_arr = [button1,button2,button3];
+    var x = setInterval(function(){
+        current = ((current+1)%img_arr.length);
+        func();
+    },3000);
+    document.getElementById("Prev").addEventListener("click",function(){
+        if(current==0){
+            current = 2;
+        }
+        else{
+            current = ((current-1)%img_arr.length);
+        }
+        func();
+    });
+    document.getElementById("Next").addEventListener("click",function(){
+        current = ((current+1)%img_arr.length);
+        func();
+    });
+    function func(){
+        for(let i=0;i<img_arr.length;i++){
+            if(current==i){
+                img_arr[i].setAttribute("class","visible");
+                btn_arr[i].style.backgroundColor="white";
+            }
+            else{
+                img_arr[i].setAttribute("class","invisible");
+                btn_arr[i].style.backgroundColor="red";
+            }
+        }
+    }
+</script>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+#container{
+    border:1px solid black;
+    background-color:royalblue;
+    width:700px;
+    height:300px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:100px;
+    display: flex;
+}
+#heading{
+    width:100%;
+    text-align: center;
+    font-size:25px;
+    text-decoration-line: underline;
+    background-color:gold;
+}
+#guidelines{
+    width:100%;
+    background-color:gold;
+}
+#points{
+    font-size:15px;
+    text-align: left;
+}
+#points > ol{
+    list-style-type: decimal;
+    margin:10px;
+}
+#points > ol > li{
+    margin-top:15px;
+    font-weight:bolder;
+    font-size:23px;
+}
+#question{
+    border:1px solid black;
+    width:350px;
+    height:300px;
+    background-color:blueviolet;
+}
+#question-number{
+    text-align: center;
+    text-decoration-line: underline;
+    font-style: italic;
+}
+#question-content{
+    text-align: center;
+    font-weight: bolder;
+    height:160px;
+    overflow:hidden;
+    font-size: 20px;
+    margin:10px;
+}
+#answer{
+    border:1px solid black;
+    width:350px;
+    height:300px;
+    background-color:red
+}
+#answer-block{
+    margin:20px;
+    width:250px;
+    border:5px solid black;
+    padding:20px;
+    border-radius:10px;
+}
+#answer-note{
+    text-align: center;
+    color:white;
+    font-weight: bold;
+    font-size:25px;
+}
+#next-question{
+    width:94%;
+    height:60px;
+    margin:10px;
+    border:1px solid black;
+    border-radius: 10px;
+}
+#next-question > button{
+    width:100%;
+    height:100%;
+    background:linear-gradient(to right,red,yellow);
+    color:white;
+    font-weight: bolder;
+    font-size:25px;
+    border-radius: 10px;
+    cursor:pointer;
+}
+#question-index > ul{
+    list-style-type: none;
+    display:flex;
+    margin:0px;
+    padding:0px;
+}
+#question-index > ul > li{
+    border:1px solid black;
+    width:25px;
+    text-align: center;
+    background-color:yellow;
+    font-weight: bolder;
+    padding:10px;
+    height:23px;
+    cursor:pointer;
+}
+#option-1,#option-2,#option-3,#option-4{
+    border:1px solid black;
+    height:20%;
+    box-sizing: border-box;
+    font-size:23px;
+    font-weight: bolder;
+    font-style:italic; 
+}
+#next-btn{
+    width:100%;
+    height:60px;
+}
+#next-btn > button{
+    width:100%;
+    height:100%;
+    font-weight: bolder;
+    font-size:25px;
+    background-color:black;
+    color:white;
+    font-style: italic;
+}
+#option-1 > input , #option-2 > input , #option-3 > input,#option-4 > input{
+    margin-top:20px;
+}
+#start-quiz{
+    text-align: center;
+    padding-top:30px;
+}
+#start-quiz > button{
+    cursor:pointer;
+}
+span{
+    font-size:17px;
+    font-weight:bolder;
+    color:white
+}
+#result{
+    font-size:45px;
+    text-align: center;
+    width:100%;
+    margin:auto;
+    font-weight: bolder;
+    font-style: italic;
+    text-transform: capitalize;
+}
+#retry{
+    width:50%;
+    height:20%;
+    font-size:25px;
+}
+</style>
+<body onclick="func(event)">
+    <div id="container">
+        <div id="guidelines">
+            <div id="heading">
+                Quiz Guidelines
+            </div>
+            <hr>
+            <div id="points">
+                <ol>
+                    <li>
+                        The Quiz is of 100 Marks
+                    </li>
+                    <li>
+                        Navigation is Sequential
+                    </li>
+                    <li>
+                        Read the Guidelines and notes before answering the question
+                    </li>
+                    <li>
+                        Plagiarism Policy : -100%
+                    </li>
+                </ol>
+                <div id="start-quiz">
+                    <button>
+                        Start Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var question_num = 1;
+    var marks = 0;
+    document.getElementById("start-quiz").addEventListener("click",function(){
+        let x = document.getElementById("container");
+        for(let i =0;i<x.children.length;i++){
+            x.children[i].remove();
+        }
+        Question(question_num);
+        Question_Type_1();
+        current_question();
+    });
+    function Question(num){
+        let question = document.createElement("div");
+        question.setAttribute("id","question")
+
+        let question_number = document.createElement("div");
+        question_number.setAttribute("id","question-number");
+        let question_number_heading = document.createElement("h1");
+        question_number_heading.innerHTML="Question "+num;
+        question_number.appendChild(question_number_heading);
+        question.appendChild(question_number);
+
+        let HR = document.createElement("hr");
+        HR.setAttribute("style","margin-top:-10px");
+        question.appendChild(HR);
+
+        let question_content = document.createElement("div");
+        question_content.setAttribute("id","question-content");
+        if(num==1){
+            question_content.innerHTML = "It is a promise which forms the consideration or part of the consideration for each others";
+        }
+        else if(num==2){
+            question_content.innerHTML = "A proposal may be revoked by different ways as are provided in which one of the followings section of the Contract Act 1872."; 
+        }
+        else if(num==3){
+            question_content.innerHTML = "How many ways for revocation of proposal, according to the section 6 of the Contract Act, 1872 (Answer in Words) ?";
+        }
+        else if(num==4){
+            question_content.innerHTML = "According to Contract Act, what is true about the term 'Contract' ?";
+        }
+        else if(num==5){
+            question_content.innerHTML = "Who was the first President of the Constituent Assembly of Pakistan ?";
+        }
+        else if(num==6){
+            question_content.innerHTML = "After how many years Pakistan got its first constitution? (in words)"
+        }
+        else if(num==7){
+            question_content.innerHTML = "Which of the following are the basic rules of a contract ?"
+        }
+        else if(num==8){
+            question_content.innerHTML = "Who was the Prime Minister of Pakistan during enforcement of first constitution?";
+        }
+        else if(num==9){
+            question_content.innerHTML = "What age was prescribed for President in 1956 constitution?"
+        }
+        else if(num==10){
+            question_content.innerHTML = "Which kind of system of Government was introduced by the 1962 constitution?";
+        }
+        question.appendChild(question_content);
+
+        let HR_2 = document.createElement("hr");
+        HR_2.setAttribute("style","margin:0px");
+        question.appendChild(HR_2);
+
+        let question_index = document.createElement("div");
+        question_index.setAttribute("id","question-index");
+        let question_index_UL = document.createElement("ul");
+        
+        let question_index_LI_1 = document.createElement("li");
+        question_index_LI_1.innerHTML = 1;
+        
+        let question_index_LI_2 = document.createElement("li");
+        question_index_LI_2.innerHTML = 2;
+
+        let question_index_LI_3 = document.createElement("li");
+        question_index_LI_3.innerHTML = 3;
+
+        let question_index_LI_4 = document.createElement("li");
+        question_index_LI_4.innerHTML = 4;
+
+        let question_index_LI_5 = document.createElement("li");
+        question_index_LI_5.innerHTML = 5;
+
+        let question_index_LI_6 = document.createElement("li");
+        question_index_LI_6.innerHTML = 6;
+
+        let question_index_LI_7 = document.createElement("li");
+        question_index_LI_7.innerHTML = 7;
+
+        let question_index_LI_8 = document.createElement("li");
+        question_index_LI_8.innerHTML = 8;
+
+        let question_index_LI_9 = document.createElement("li");
+        question_index_LI_9.innerHTML =9;
+
+        let question_index_LI_10 = document.createElement("li");
+        question_index_LI_10.innerHTML = 10;
+
+        question_index_UL.appendChild(question_index_LI_1);
+        question_index_UL.appendChild(question_index_LI_2);
+        question_index_UL.appendChild(question_index_LI_3);
+        question_index_UL.appendChild(question_index_LI_4);
+        question_index_UL.appendChild(question_index_LI_5);
+        question_index_UL.appendChild(question_index_LI_6);
+        question_index_UL.appendChild(question_index_LI_7);
+        question_index_UL.appendChild(question_index_LI_8);
+        question_index_UL.appendChild(question_index_LI_9);
+        question_index_UL.appendChild(question_index_LI_10);
+
+        question_index.appendChild(question_index_UL);
+        question.appendChild(question_index);
+        document.getElementById("container").appendChild(question);
+    }
+    function Question_Type_1(){
+        let answer = document.createElement("div");
+        answer.setAttribute("id","answer");
+
+        let answer_input = document.createElement("div");
+        answer_input.setAttribute("id","answer-input")
+
+        let answer_block = document.createElement("input");
+        answer_block.setAttribute("type","text");
+        answer_block.setAttribute("placeholder","Enter Answer");
+        answer_block.setAttribute("id","answer-block");
+
+        answer_input.appendChild(answer_block);
+
+        let HR_3 = document.createElement("hr");
+        HR_3.setAttribute("style","margin-top:-10px");
+
+        let answer_note = document.createElement("div");
+        answer_note.setAttribute("id","answer-note");
+        answer_note.innerHTML = " Note : Answer must be given in lowercase form otherwise it will be marked as wrong regardless of it's correctness";
+
+        let HR_4 = document.createElement("hr");
+
+        let next_question = document.createElement("div");
+        next_question.setAttribute("id","next-question");
+        let next_question_button = document.createElement("button");
+        next_question_button.setAttribute("id","button-next-question");
+        next_question_button.innerHTML = "Next";
+        next_question.appendChild(next_question_button);
+
+        answer.appendChild(answer_input);
+        answer.appendChild(HR_3);
+        answer.appendChild(answer_note);
+        answer.appendChild(HR_4);
+        answer.appendChild(next_question);
+        document.getElementById("container").appendChild(answer);
+    }
+    function Question_Type_2(){
+        let answer = document.createElement("div");
+        answer.setAttribute("id","answer");
+        
+        let option_1 = document.createElement("div");
+        option_1.setAttribute("id","option-1");
+
+        let radio_1 = document.createElement("input");
+        radio_1.setAttribute("type","radio");
+        radio_1.setAttribute("name","option");
+        let span_1 = document.createElement("span");
+        if(question_num==2){
+            span_1.innerHTML = "7";
+        }
+        else if(question_num==5){
+            span_1.innerHTML = "Liaquat Ali Khan";
+        }
+        else if(question_num==9){
+            span_1.innerHTML = "40 years"
+        }
+        else if(question_num==10){
+            span_1.innerHTML = "Autonomous";
+        }
+        option_1.appendChild(radio_1);
+        option_1.appendChild(span_1);
+
+        let option_2 = document.createElement("div");
+        option_2.setAttribute("id","option-2");
+
+        let radio_2 = document.createElement("input");
+        radio_2.setAttribute("type","radio");
+        radio_2.setAttribute("name","option");
+        let span_2 = document.createElement("span");
+        if(question_num==2){
+            span_2.innerHTML = "6";
+        }
+        else if(question_num==5){
+            span_2.innerHTML = "Quaid-e-Azam";
+        }
+        else if(question_num==9){
+            span_2.innerHTML = "45 years";
+        }
+        else if(question_num==10){
+            span_2.innerHTML = "Presidential";
+        }
+        option_2.appendChild(radio_2);
+        option_2.appendChild(span_2);
+
+        let option_3 = document.createElement("div");
+        option_3.setAttribute("id","option-3");
+
+        let radio_3 = document.createElement("input");
+        radio_3.setAttribute("type","radio");
+        radio_3.setAttribute("name","option");
+        let span_3 = document.createElement("span");
+        if(question_num==2){
+            span_3.innerHTML = "8";
+        }
+        else if(question_num==5){
+            span_3.innerHTML = "Moulvi Tameez-ud-Din";
+        }
+        else if(question_num==9){
+            span_3.innerHTML = "50 years";
+        }
+        else if(question_num==10){
+            span_3.innerHTML = "Bicameral";
+        }
+        option_3.appendChild(radio_3);
+        option_3.appendChild(span_3);
+
+        let option_4 = document.createElement("div");
+        option_4.setAttribute("id","option-4");
+
+        let radio_4 = document.createElement("input");
+        radio_4.setAttribute("type","radio");
+        radio_4.setAttribute("name","option");
+        let span_4 = document.createElement("span");
+        if(question_num==2){
+            span_4.innerHTML = "None of the Above";
+        }
+        else if(question_num==5){
+            span_4.innerHTML = "Sardar Abdur Rab Nishtar";
+        }
+        else if(question_num==9){
+            span_4.innerHTML = "55 years";
+        }
+        else if(question_num==10){
+            span_4.innerHTML = "Confederate";
+        }
+        option_4.appendChild(radio_4);
+        option_4.appendChild(span_4);
+
+        let next_btn = document.createElement("div");
+        next_btn.setAttribute("id","next-btn");
+        let next_btn_button = document.createElement("button");
+        next_btn_button.setAttribute("id","button-next-question");
+        if(question_num != 10){
+            next_btn_button.innerHTML = "Next";
+        }
+        else if(question_num==10){
+            next_btn_button.innerHTML = "Submit";
+            next_btn_button.setAttribute("id","Submit");
+        }
+        next_btn.appendChild(next_btn_button);
+
+        answer.appendChild(option_1);
+        answer.appendChild(option_2);
+        answer.appendChild(option_3);
+        answer.appendChild(option_4);
+        answer.appendChild(next_btn);
+        document.getElementById("container").appendChild(answer);
+    }
+    function Question_Type_3(){
+        let answer = document.createElement("div");
+        answer.setAttribute("id","answer");
+        
+        let option_1 = document.createElement("div");
+        option_1.setAttribute("id","option-1");
+
+        let radio_1 = document.createElement("input");
+        radio_1.setAttribute("type","checkbox");
+        radio_1.setAttribute("name","option");
+        let span_1 = document.createElement("span");
+        if(question_num==4){
+            span_1.innerHTML = "Binding Agreement";
+        }
+        else if(question_num==7){
+            span_1.innerHTML = "mutual assent";
+        }
+        option_1.appendChild(radio_1);
+        option_1.appendChild(span_1);
+
+        let option_2 = document.createElement("div");
+        option_2.setAttribute("id","option-2");
+
+        let radio_2 = document.createElement("input");
+        radio_2.setAttribute("type","checkbox");
+        radio_2.setAttribute("name","option");
+        let span_2 = document.createElement("span");
+        if(question_num==4){
+            span_2.innerHTML = "Always in Written";
+        }
+        else if(question_num==7){
+            span_2.innerHTML = "valid offer and acceptance";
+        }
+        option_2.appendChild(radio_2);
+        option_2.appendChild(span_2);
+
+        let option_3 = document.createElement("div");
+        option_3.setAttribute("id","option-3");
+
+        let radio_3 = document.createElement("input");
+        radio_3.setAttribute("type","checkbox");
+        radio_3.setAttribute("name","option");
+        let span_3 = document.createElement("span");
+        if(question_num==4){
+            span_3.innerHTML = "requires consideration for both parties";
+        }
+        else if(question_num==7){
+            span_3.innerHTML = "consideration for one party";
+        }
+        option_3.appendChild(radio_3);
+        option_3.appendChild(span_3);
+
+        let option_4 = document.createElement("div");
+        option_4.setAttribute("id","option-4");
+
+        let radio_4 = document.createElement("input");
+        radio_4.setAttribute("type","checkbox");
+        radio_4.setAttribute("name","option");
+        let span_4 = document.createElement("span");
+        if(question_num==4){
+            span_4.innerHTML = "can be formed for a social or domestic matter";
+        }
+        else if(question_num==7){
+            span_4.innerHTML = "Uncertainty of Meaning";
+        }
+        option_4.appendChild(radio_4);
+        option_4.appendChild(span_4);
+
+        let next_btn = document.createElement("div");
+        next_btn.setAttribute("id","next-btn");
+        let next_btn_button = document.createElement("button");
+        next_btn_button.setAttribute("id","button-next-question")
+        next_btn_button.innerHTML = "Next";
+        next_btn.appendChild(next_btn_button);
+
+        answer.appendChild(option_1);
+        answer.appendChild(option_2);
+        answer.appendChild(option_3);
+        answer.appendChild(option_4);
+        answer.appendChild(next_btn);
+        document.getElementById("container").appendChild(answer);
+    }
+    function Clear(){
+        let x = document.getElementById("container");
+        while(x.children.length>0){
+            for(let i=0;i<x.children.length;i++){
+                x.children[i].remove();
+            }
+        }
+    }
+    function func(event){
+        if(event.target.id=="button-next-question"){
+            answers()
+            question_num=((question_num+1)%11);
+            Clear();
+            switch(question_num){
+                case 1:
+                    Question(1);
+                    Question_Type_1();
+                    break;
+                case 2:
+                    Question(2);
+                    Question_Type_2();
+                    break;
+                case 3:
+                    Question(3);
+                    Question_Type_1();
+                    break;
+                case 4:
+                    Question(4);
+                    Question_Type_3();
+                    break;
+                case 5:
+                    Question(5);
+                    Question_Type_2();
+                    break;
+                case 6:
+                    Question(6);
+                    Question_Type_1();
+                    break;
+                case 7:
+                    Question(7);
+                    Question_Type_3();
+                    break;
+                case 8:
+                    Question(8);
+                    Question_Type_1();
+                    break;
+                case 9:
+                    Question(9);
+                    Question_Type_2();
+                    break;
+                case 10:
+                    Question(10);
+                    Question_Type_2();
+                    break;
+            }
+            if(question_num<=10){    
+                current_question();
+            }   
+        }
+        else if(event.target.id=="Submit"){
+            answers();
+            result();
+        }
+        else if(event.target.id=="retry"){
+            let x = document.getElementById("container");
+            for(let i =0;i<x.children.length;i++){
+                x.children[i].remove();
+            }
+            question_num=1;
+            marks=0;
+            Question(question_num);
+            Question_Type_1();
+            current_question();
+        }
+    }
+    function current_question(){
+        if(question_num<=10){    
+            let question_index = document.getElementById("question-index").firstElementChild;
+            question_index.children[question_num-1].setAttribute("style","text-decoration-line:underline");
+        }
+    }
+    function answers(){
+        if(question_num==1){
+            let x = document.getElementById("answer-block").value;
+            if(x=="reciprocal promises" || x=="reciprocal promise"){
+                marks+=10;
+            }
+        }
+        else if(question_num==2){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==false && option2.checked==true && option3.checked==false && option4.checked==false){
+                marks+=10;
+            }
+        }
+        else if(question_num==3){
+            let x = document.getElementById("answer-block").value;
+            if(x=="four"){
+                marks+=10;
+            }
+        }
+        else if(question_num==4){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==true && option2.checked==true && option3.checked==true && option4.checked==false){
+                marks+=10;
+            }
+        }
+        else if(question_num==5){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==false && option2.checked==true && option3.checked==false && option4.checked==false){
+                marks+=10;
+            }
+        }
+        else if(question_num==6){
+            let x = document.getElementById("answer-block").value;
+            if(x=="nine"){
+                marks+=10;
+            }
+        }
+        else if(question_num==7){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==true && option2.checked==true && option3.checked==false && option4.checked==false){
+                marks+=10;
+            }
+        }
+        else if(question_num==8){
+            let x = document.getElementById("answer-block").value;
+            if(x=="choudhry mohammad ali"){
+                marks+=10;
+            }
+        }
+        else if(question_num==9){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==true && option2.checked==false && option3.checked==false && option4.checked==false){
+                marks+=10;
+            }
+        }
+        else if(question_num==10){
+            let option1 = document.getElementById("option-1").firstElementChild;
+            let option2 = document.getElementById("option-2").firstElementChild;
+            let option3 = document.getElementById("option-3").firstElementChild;
+            let option4 = document.getElementById("option-4").firstElementChild;
+            if(option1.checked==false && option2.checked==true && option3.checked==false && option4.checked==false){
+                marks+=10;
+            }
+        }
+    }
+    function result(){
+        Clear()
+        let result = document.createElement("p");
+        result.setAttribute("id","result");
+        result.innerHTML = "your result is "+marks+"/100";
+        
+        let result_br = document.createElement("br");
+        let result_br_2 = document.createElement("br");
+        let result_button = document.createElement("button");
+        result_button.innerHTML = "Retry"
+        result_button.setAttribute("id","retry");
+
+        result.appendChild(result_br);
+        result.appendChild(result_br_2);
+        result.appendChild(result_button);
+        document.getElementById("container").appendChild(result);
+    }
+</script>

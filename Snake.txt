@@ -1,0 +1,378 @@
+from tkinter import *
+import random
+window = Tk()
+Snake_body = []
+Snake_body_count = 3
+direction = ""
+Snake_Food = ""
+snake_x = 0
+snake_y = 0
+def Collision():
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)-1):
+        x1 = c1.coords(Snake_body[x])[0]
+        x2 = c1.coords(Snake_body[x])[2]
+        y1 = c1.coords(Snake_body[x])[1]
+        y2 = c1.coords(Snake_body[x])[3]
+        head_x1 = c1.coords(Snake_body[-1])[0]
+        head_x2 = c1.coords(Snake_body[-1])[2]
+        head_y1 = c1.coords(Snake_body[-1])[1]
+        head_y2 = c1.coords(Snake_body[-1])[3]
+        if x1==head_x1 and x2==head_x2 and y1==head_y1 and y2==head_y2:
+            window.quit()
+def Snake_Body_Increase():
+    global Snake_body
+    Snake_body.insert(0,c1.create_rectangle(610,410,620,420,fill="yellow"))
+def Snake_food():
+    global c1,Snake_Food,snake_x,snake_y
+    c1.delete(Snake_Food)
+    snake_x = int(random.randint(0,590))
+    snake_y = int(random.randint(0,390))
+    Snake_Food = c1.create_rectangle(snake_x,snake_y,snake_x+10,snake_y+10,fill="purple")
+def Snake_Eat():
+    global c1,Snake_body,snake_x,snake_y
+    head_x1 = c1.coords(Snake_body[-1])[0]
+    head_x2 = c1.coords(Snake_body[-1])[2]
+    head_y1 = c1.coords(Snake_body[-1])[1]
+    head_y2 = c1.coords(Snake_body[-1])[3]
+    if (snake_x+10)>=head_x1 and (snake_x+10)<=head_x2 and (snake_y+10)>=head_y1 and (snake_y+10)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif (snake_x+10)>=head_x1 and (snake_x+10)<=head_x2 and (snake_y)>=head_y1 and (snake_y)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif snake_x>=head_x1 and snake_x<=head_x2 and (snake_y)>=head_y1 and (snake_y)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif snake_x>=head_x1 and snake_x<=head_x2 and (snake_y+10)>=head_y1 and (snake_y+10)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+def Snake_Shift():
+    global Snake_body,c1
+    if c1.coords(Snake_body[-1])[2]>600:
+        c1.coords(Snake_body[-1],
+        10,
+        c1.coords(Snake_body[-1])[1],
+        30,
+        c1.coords(Snake_body[-1])[3])
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[3]>400:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        10,
+        c1.coords(Snake_body[-1])[2],
+        30)
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[0]<0:
+        c1.coords(Snake_body[-1],
+        570,
+        c1.coords(Snake_body[-1])[1],
+        590,
+        c1.coords(Snake_body[-1])[3])
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[1]<0:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        370,
+        c1.coords(Snake_body[-1])[2],
+        390)
+        Snake_Eat()
+def Snake_Right(event):
+    global Snake_body,c1,direction
+    if direction != "left":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0]+20,
+                c1.coords(Snake_body[x])[1],
+                c1.coords(Snake_body[x])[2]+20,
+                c1.coords(Snake_body[x])[3])
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="right"
+        Collision()
+        Snake_Eat()
+def Snake_Down(event):
+    global Snake_body,c1,direction
+    if direction != "up":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0],
+                c1.coords(Snake_body[x])[1]+20,
+                c1.coords(Snake_body[x])[2],
+                c1.coords(Snake_body[x])[3]+20)
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="down"
+        Collision()
+        Snake_Eat()
+def Snake_Left(event):
+    global Snake_body,c1,direction
+    if direction != "right":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0]-20,
+                c1.coords(Snake_body[x])[1],
+                c1.coords(Snake_body[x])[2]-20,
+                c1.coords(Snake_body[x])[3])
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="left"
+        Collision()
+        Snake_Eat()
+def Snake_Up(event):
+    global Snake_body,c1,direction
+    if direction != "down":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0],
+                c1.coords(Snake_body[x])[1]-20,
+                c1.coords(Snake_body[x])[2],
+                c1.coords(Snake_body[x])[3]-20)
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="up"
+        Collision()
+        Snake_Eat()
+window.geometry("600x400")
+c1 = Canvas(window,width=600,height=400,bg="red")
+c1.pack()
+Snake_body.append(c1.create_rectangle(10,10,30,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(30,10,50,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(50,10,70,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(70,10,90,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(90,10,110,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(110,10,130,30,fill="green"))
+Snake_food()
+window.bind("<Right>",Snake_Right)
+window.bind("<Down>",Snake_Down)
+window.bind("<Left>",Snake_Left)
+window.bind("<Up>",Snake_Up)
+window.mainloop()
+____________________________________________________________________________________________________________________________________
+from tkinter import *
+import random
+window = Tk()
+Snake_body = []
+Snake_body_count = 3
+direction = ""
+Snake_Food = ""
+direction_input = ""
+snake_x = 0
+snake_y = 0
+def Collision():
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)-1):
+        x1 = c1.coords(Snake_body[x])[0]
+        x2 = c1.coords(Snake_body[x])[2]
+        y1 = c1.coords(Snake_body[x])[1]
+        y2 = c1.coords(Snake_body[x])[3]
+        head_x1 = c1.coords(Snake_body[-1])[0]
+        head_x2 = c1.coords(Snake_body[-1])[2]
+        head_y1 = c1.coords(Snake_body[-1])[1]
+        head_y2 = c1.coords(Snake_body[-1])[3]
+        if x1==head_x1 and x2==head_x2 and y1==head_y1 and y2==head_y2:
+            window.quit()
+def Snake_Body_Increase():
+    global Snake_body
+    Snake_body.insert(0,c1.create_rectangle(610,410,620,420,fill="yellow"))
+def Snake_food():
+    global c1,Snake_Food,snake_x,snake_y
+    c1.delete(Snake_Food)
+    snake_x = int(random.randint(0,590))
+    snake_y = int(random.randint(0,390))
+    Snake_Food = c1.create_rectangle(snake_x,snake_y,snake_x+10,snake_y+10,fill="purple")
+def Snake_Eat():
+    global c1,Snake_body,snake_x,snake_y
+    head_x1 = c1.coords(Snake_body[-1])[0]
+    head_x2 = c1.coords(Snake_body[-1])[2]
+    head_y1 = c1.coords(Snake_body[-1])[1]
+    head_y2 = c1.coords(Snake_body[-1])[3]
+    if (snake_x+10)>=head_x1 and (snake_x+10)<=head_x2 and (snake_y+10)>=head_y1 and (snake_y+10)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif (snake_x+10)>=head_x1 and (snake_x+10)<=head_x2 and (snake_y)>=head_y1 and (snake_y)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif snake_x>=head_x1 and snake_x<=head_x2 and (snake_y)>=head_y1 and (snake_y)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+    elif snake_x>=head_x1 and snake_x<=head_x2 and (snake_y+10)>=head_y1 and (snake_y+10)<=head_y2:
+        Snake_food()
+        Snake_Body_Increase()
+def Snake_Shift():
+    global Snake_body,c1
+    if c1.coords(Snake_body[-1])[2]>600:
+        c1.coords(Snake_body[-1],
+        10,
+        c1.coords(Snake_body[-1])[1],
+        30,
+        c1.coords(Snake_body[-1])[3])
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[3]>400:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        10,
+        c1.coords(Snake_body[-1])[2],
+        30)
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[0]<0:
+        c1.coords(Snake_body[-1],
+        570,
+        c1.coords(Snake_body[-1])[1],
+        590,
+        c1.coords(Snake_body[-1])[3])
+        Snake_Eat()
+    elif c1.coords(Snake_body[-1])[1]<0:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        370,
+        c1.coords(Snake_body[-1])[2],
+        390)
+        Snake_Eat()
+def Snake_Right():
+    global Snake_body,c1,direction
+    if direction != "left":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0]+20,
+                c1.coords(Snake_body[x])[1],
+                c1.coords(Snake_body[x])[2]+20,
+                c1.coords(Snake_body[x])[3])
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="right"
+        Collision()
+        Snake_Eat()
+def Snake_Down():
+    global Snake_body,c1,direction
+    if direction != "up":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0],
+                c1.coords(Snake_body[x])[1]+20,
+                c1.coords(Snake_body[x])[2],
+                c1.coords(Snake_body[x])[3]+20)
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="down"
+        Collision()
+        Snake_Eat()
+def Snake_Left():
+    global Snake_body,c1,direction
+    if direction != "right":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0]-20,
+                c1.coords(Snake_body[x])[1],
+                c1.coords(Snake_body[x])[2]-20,
+                c1.coords(Snake_body[x])[3])
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="left"
+        Collision()
+        Snake_Eat()
+def Snake_Up():
+    global Snake_body,c1,direction
+    if direction != "down":
+        for x in range(0,len(Snake_body)):
+            if x==len(Snake_body)-1:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x])[0],
+                c1.coords(Snake_body[x])[1]-20,
+                c1.coords(Snake_body[x])[2],
+                c1.coords(Snake_body[x])[3]-20)
+            else:
+                c1.coords(Snake_body[x],
+                c1.coords(Snake_body[x+1])[0],
+                c1.coords(Snake_body[x+1])[1],
+                c1.coords(Snake_body[x+1])[2],
+                c1.coords(Snake_body[x+1])[3])
+            Snake_Shift()
+        direction="up"
+        Collision()
+        Snake_Eat()
+def Right(event):
+    global direction_input,direction
+    if direction != "left":
+        direction_input = "right"
+def Down(event):
+    global direction_input,direction
+    if direction != "up":
+        direction_input = "down"
+def Up(event):
+    global direction_input,direction
+    if direction != "down":
+        direction_input = "up"
+def Left(event):
+    global direction_input,direction
+    if direction != "right":
+        direction_input = "left"
+def Game():
+    global direction_input
+    if direction_input=="right":
+        Snake_Right()
+    elif direction_input=="left":
+        Snake_Left()
+    elif direction_input=="up":
+        Snake_Up()
+    elif direction_input=="down":
+        Snake_Down()
+    window.after(100,Game)
+window.geometry("600x400")
+c1 = Canvas(window,width=600,height=400,bg="red")
+c1.pack()
+Snake_body.append(c1.create_rectangle(10,10,30,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(30,10,50,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(50,10,70,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(70,10,90,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(90,10,110,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(110,10,130,30,fill="green"))
+Snake_food()
+window.bind("<Right>",Right)
+window.bind("<Down>",Down)
+window.bind("<Left>",Left)
+window.bind("<Up>",Up)
+window.after(1000,Game)
+window.mainloop()

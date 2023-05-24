@@ -1,0 +1,1108 @@
+Main.java|
+_________|
+package com.hello;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class Main{
+	static JFrame frame;
+	static Timer timer;
+	static TimerTask task;
+	static int player_1_pos = 93;
+	static int player_2_pos = 0;
+	static Integer dice_roll;
+	static JPanel player_1;
+	static JPanel player_2;
+	static JPanel[] Players;
+	static int turn = 1;
+	static String[] players = {"Player 1","Player 2"};
+	static JButton dice;
+	static panel p1;
+	public static void main(String[] args) {
+		Random random = new Random();
+		
+		frame = new JFrame();
+		frame.setTitle("Snakes and Ladders");
+		frame.setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(200,10,1000,720);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.getContentPane().setBackground(Color.RED);
+		
+		player_1 = new JPanel();
+		player_1.setBounds(10,610,80, 40);
+		player_1.setBackground(Color.WHITE);
+		
+		player_2 = new JPanel();
+		player_2.setBounds(10,610,80, 40);
+		player_2.setBackground(Color.GRAY);
+		
+		Players = new JPanel[2];
+		Players[0] = player_1;
+		Players[1] = player_2;
+		dice = new JButton("Player 1");
+		dice.setFont(new Font("times",Font.BOLD,20));
+		dice.setBounds(425, 620, 150, 50);
+		dice.setFocusable(false);
+		
+		p1 = new panel();
+		
+		
+		dice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dice_roll = random.nextInt(6)+1;
+				dice.setText(dice_roll.toString());
+				dice.setEnabled(false);
+				if(turn==1) {
+					turn=2;
+					Player1(dice_roll);
+				}
+				else if(turn==2) {
+					turn=1;
+					Player2(dice_roll);
+				}
+				timer = new Timer();
+				task = new TimerTask() {
+					public void run() {
+						dice.setEnabled(true);
+						dice.setText(players[turn-1]);
+					}
+				};
+				timer.schedule(task, 3000);
+			}
+		});
+		frame.add(dice);
+		frame.add(player_2);
+		frame.add(player_1);
+		frame.add(p1);
+	}
+	public static void Dice_Roll(int turn,int input) {
+		if(input==1) {
+			Players[turn-1].setBounds(10,550,80, 40);
+		}
+		else if(input==2) {
+			Players[turn-1].setBounds(110,550,80, 40);
+		}
+		else if(input==3) {
+			Players[turn-1].setBounds(210,550,80, 40);
+		}
+		else if(input==4) {
+			Players[turn-1].setBounds(310,550,80, 40);
+		}
+		else if(input==5) {
+			Players[turn-1].setBounds(410,550,80, 40);
+		}
+		else if(input==6) {
+			Players[turn-1].setBounds(510,550,80, 40);
+			Players[turn-1].setBounds(610,190,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 67;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 67;
+			}
+		}
+		else if(input==7) {
+			Players[turn-1].setBounds(610,550,80, 40);
+		}
+		else if(input==8) {
+			Players[turn-1].setBounds(710,550,80, 40);
+		}
+		else if(input==9) {
+			Players[turn-1].setBounds(810,550,80, 40);
+		}
+		else if(input==10) {
+			Players[turn-1].setBounds(910,550,80, 40);
+		}
+		else if(input==11) {
+			Players[turn-1].setBounds(910,490,80, 40);
+		}
+		else if(input==12) {
+			Players[turn-1].setBounds(810,490,80, 40);
+		}
+		else if(input==13) {
+			Players[turn-1].setBounds(710,490,80, 40);
+		}
+		else if(input==14) {
+			Players[turn-1].setBounds(610,490,80, 40);
+		}
+		else if(input==15) {
+			Players[turn-1].setBounds(510,490,80, 40);
+		}
+		else if(input==16) {
+			Players[turn-1].setBounds(410,490,80, 40);
+		}
+		else if(input==17) {
+			Players[turn-1].setBounds(310,490,80, 40);
+		}
+		else if(input==18) {
+			Players[turn-1].setBounds(210,490,80, 40);
+		}
+		else if(input==19) {
+			Players[turn-1].setBounds(110,490,80, 40);
+		}
+		else if(input==20) {
+			Players[turn-1].setBounds(10,490,80, 40);
+		}
+		else if(input==21) {
+			Players[turn-1].setBounds(10,430,80, 40);
+		}
+		else if(input==22) {
+			Players[turn-1].setBounds(110,430,80, 40);
+			Players[turn-1].setBounds(210,310,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 43;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 43;
+			}
+		}
+		else if(input==23) {
+			Players[turn-1].setBounds(210,430,80, 40);
+		}
+		else if(input==24) {
+			Players[turn-1].setBounds(310,430,80, 40);
+		}
+		else if(input==25) {
+			Players[turn-1].setBounds(410,430,80, 40);
+		}
+		else if(input==26) {
+			Players[turn-1].setBounds(510,430,80, 40);
+		}
+		else if(input==27) {
+			Players[turn-1].setBounds(610,430,80, 40);
+		}
+		else if(input==28) {
+			Players[turn-1].setBounds(710,430,80, 40);
+		}
+		else if(input==29) {
+			Players[turn-1].setBounds(810,430,80, 40);
+		}
+		else if(input==30) {
+			Players[turn-1].setBounds(910,430,80, 40);
+		}
+		else if(input==31) {
+			Players[turn-1].setBounds(910,370,80, 40);
+			Players[turn-1].setBounds(810,190,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 69;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 69;
+			}
+		}
+		else if(input==32) {
+			Players[turn-1].setBounds(810,370,80, 40);
+		}
+		else if(input==33) {
+			Players[turn-1].setBounds(710,370,80, 40);
+		}
+		else if(input==34) {
+			Players[turn-1].setBounds(610,370,80, 40);
+		}
+		else if(input==35) {
+			Players[turn-1].setBounds(510,370,80, 40);
+		}
+		else if(input==36) {
+			Players[turn-1].setBounds(410,370,80, 40);
+		}
+		else if(input==37) {
+			Players[turn-1].setBounds(310,370,80, 40);
+		}
+		else if(input==38) {
+			Players[turn-1].setBounds(210,370,80, 40);
+		}
+		else if(input==39) {
+			Players[turn-1].setBounds(110,370,80, 40);
+		}
+		else if(input==40) {
+			Players[turn-1].setBounds(10,370,80, 40);
+		}
+		else if(input==41) {
+			Players[turn-1].setBounds(10,310,80, 40);
+		}
+		else if(input==42) {
+			Players[turn-1].setBounds(110,310,80, 40);
+			Players[turn-1].setBounds(10,550,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 1;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 1;
+			}
+		}
+		else if(input==43) {
+			Players[turn-1].setBounds(210,310,80, 40);
+		}
+		else if(input==44) {
+			Players[turn-1].setBounds(310,310,80, 40);
+		}
+		else if(input==45) {
+			Players[turn-1].setBounds(410,310,80, 40);
+		}
+		else if(input==46) {
+			Players[turn-1].setBounds(510,310,80, 40);
+		}
+		else if(input==47) {
+			Players[turn-1].setBounds(610,310,80, 40);
+		}
+		else if(input==48) {
+			Players[turn-1].setBounds(710,310,80, 40);
+		}
+		else if(input==49) {
+			Players[turn-1].setBounds(810,310,80, 40);
+		}
+		else if(input==50) {
+			Players[turn-1].setBounds(910,310,80, 40);
+		}
+		else if(input==51) {
+			Players[turn-1].setBounds(910,250,80, 40);
+		}
+		else if(input==52) {
+			Players[turn-1].setBounds(810,250,80, 40);
+		}
+		else if(input==53) {
+			Players[turn-1].setBounds(710,250,80, 40);
+		}
+		else if(input==54) {
+			Players[turn-1].setBounds(610,250,80, 40);
+		}
+		else if(input==55) {
+			Players[turn-1].setBounds(510,250,80, 40);
+		}
+		else if(input==56) {
+			Players[turn-1].setBounds(410,250,80, 40);
+		}
+		else if(input==57) {
+			Players[turn-1].setBounds(310,250,80, 40);
+		}
+		else if(input==58) {
+			Players[turn-1].setBounds(210,250,80, 40);
+		}
+		else if(input==59) {
+			Players[turn-1].setBounds(110,250,80, 40);
+		}
+		else if(input==60) {
+			Players[turn-1].setBounds(10,250,80, 40);
+		}
+		else if(input==61) {
+			Players[turn-1].setBounds(10,190,80, 40);
+		}
+		else if(input==62) {
+			Players[turn-1].setBounds(110,190,80, 40);
+		}
+		else if(input==63) {
+			Players[turn-1].setBounds(210,190,80, 40);
+		}
+		else if(input==64) {
+			Players[turn-1].setBounds(310,190,80, 40);
+		}
+		else if(input==65) {
+			Players[turn-1].setBounds(410,190,80, 40);
+		}
+		else if(input==66) {
+			Players[turn-1].setBounds(510,190,80, 40);
+		}
+		else if(input==67) {
+			Players[turn-1].setBounds(610,190,80, 40);
+		}
+		else if(input==68) {
+			Players[turn-1].setBounds(710,190,80, 40);
+		}
+		else if(input==69) {
+			Players[turn-1].setBounds(810,190,80, 40);
+		}
+		else if(input==70) {
+			Players[turn-1].setBounds(910,190,80, 40);
+		}
+		else if(input==71) {
+			Players[turn-1].setBounds(910,130,80, 40);
+		}
+		else if(input==72) {
+			Players[turn-1].setBounds(810,130,80, 40);
+			Players[turn-1].setBounds(910,10,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 91;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 91;
+			}
+		}
+		else if(input==73) {
+			Players[turn-1].setBounds(710,130,80, 40);
+		}
+		else if(input==74) {
+			Players[turn-1].setBounds(610,130,80, 40);
+		}
+		else if(input==75) {
+			Players[turn-1].setBounds(510,130,80, 40);
+		}
+		else if(input==76) {
+			Players[turn-1].setBounds(410,130,80, 40);
+		}
+		else if(input==77) {
+			Players[turn-1].setBounds(310,130,80, 40);
+		}
+		else if(input==78) {
+			Players[turn-1].setBounds(210,130,80, 40);
+		}
+		else if(input==79) {
+			Players[turn-1].setBounds(110,130,80, 40);
+		}
+		else if(input==80) {
+			Players[turn-1].setBounds(10,130,80, 40);
+			Players[turn-1].setBounds(110,10,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 99;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 99;
+			}
+		}
+		else if(input==81) {
+			Players[turn-1].setBounds(10,70,80, 40);
+		}
+		else if(input==82) {
+			Players[turn-1].setBounds(110,70,80, 40);
+		}
+		else if(input==83) {
+			Players[turn-1].setBounds(210,70,80, 40);
+		}
+		else if(input==84) {
+			Players[turn-1].setBounds(310,70,80, 40);
+		}
+		else if(input==85) {
+			Players[turn-1].setBounds(410,70,80, 40);
+		}
+		else if(input==86) {
+			Players[turn-1].setBounds(510,70,80, 40);
+		}
+		else if(input==87) {
+			Players[turn-1].setBounds(610,70,80, 40);
+		}
+		else if(input==88) {
+			Players[turn-1].setBounds(710,70,80, 40);
+			Players[turn-1].setBounds(610,190,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 67;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 67;
+			}
+		}
+		else if(input==89) {
+			Players[turn-1].setBounds(810,70,80, 40);
+		}
+		else if(input==90) {
+			Players[turn-1].setBounds(910,70,80, 40);
+		}
+		else if(input==91) {
+			Players[turn-1].setBounds(910,10,80, 40);
+		}
+		else if(input==92) {
+			Players[turn-1].setBounds(810,10,80, 40);
+		}
+		else if(input==93) {
+			Players[turn-1].setBounds(710,10,80, 40);
+		}
+		else if(input==94) {
+			Players[turn-1].setBounds(610,10,80, 40);
+			Players[turn-1].setBounds(510,130,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 75;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 75;
+			}
+		}
+		else if(input==95) {
+			Players[turn-1].setBounds(510,10,80, 40);
+		}
+		else if(input==96) {
+			Players[turn-1].setBounds(410,10,80, 40);
+		}
+		else if(input==97) {
+			Players[turn-1].setBounds(310,10,80, 40);
+		}
+		else if(input==98) {
+			Players[turn-1].setBounds(210,10,80, 40);
+			Players[turn-1].setBounds(310,550,80, 40);
+			if(Players[turn-1]==player_1) {
+				player_1_pos = 4;
+			}
+			else if(Players[turn-1]==player_2) {
+				player_2_pos = 4;
+			}
+		}
+		else if(input==99) {
+			Players[turn-1].setBounds(110,10,80, 40);
+		}
+		else if(input==100) {
+			Players[turn-1].setBounds(10,10,80, 40);
+			JOptionPane message = new JOptionPane();
+			String result = players[turn-1] + " Wins \n Would You like to Replay?";
+			int answer = message.showConfirmDialog(null,result,"Game Over",JOptionPane.YES_NO_OPTION);
+			if(answer==0) {
+				player_1.setBounds(10,610,80, 40);
+				player_2.setBounds(10,610,80, 40);
+				player_1_pos = 0;
+				player_2_pos = 0;
+				turn = 1;
+				dice.setEnabled(true);
+				dice.setText("Player 1");
+			}
+			else if(answer==1) {
+				System.exit(0);
+			}
+		}
+		
+	}
+	public static void Player1(Integer input) {
+		if(player_1_pos==0 && input==6) {
+			player_1_pos = 1;
+			player_1.setBounds(10,550,80,40);
+		}
+		else if(player_1_pos > 0 && (player_1_pos+dice_roll)<=100) {
+			player_1_pos += dice_roll;
+			Dice_Roll(1,player_1_pos);
+		}
+	}
+	public static void Player2(Integer input) {
+		if(player_2_pos==0 && input==6) {
+			player_2_pos = 1;
+			player_2.setBounds(10,550,80,40);
+		}
+		else if(player_2_pos > 0 && (player_2_pos+dice_roll)<=100) {
+			player_2_pos += dice_roll;
+			Dice_Roll(2,player_2_pos);
+		}
+	}
+}
+______________________________________________________________________________________________________________________
+panel.java|
+__________|
+
+package com.hello;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class panel extends JPanel {
+	panel(){
+		this.setSize(1000,600);
+		this.setBackground(Color.RED);
+	}
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		
+		g2d.drawRect(0, 0,1000, 600);
+		g2d.setPaint(Color.RED);
+		g2d.fillRect(0,0,1000,720);
+		
+		g2d.drawRect(0,0,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(0,0,100, 60);
+		
+		g2d.drawRect(100,0,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(100,0,100, 60);
+		
+		g2d.drawRect(200,0,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(200,0,100, 60);
+		
+		g2d.drawRect(300,0,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(300,0,100, 60);
+		
+		g2d.drawRect(400,0,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(400,0,100, 60);
+		
+		g2d.drawRect(500,0,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(500,0,100, 60);
+		
+		g2d.drawRect(600,0,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(600,0,100, 60);
+		
+		g2d.drawRect(700,0,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(700,0,100, 60);
+		
+		g2d.drawRect(800,0,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(800,0,100, 60);
+		
+		g2d.drawRect(900,0,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(900,0,100, 60);
+		
+		g2d.drawRect(0,60,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(0,60,100, 60);
+		
+		g2d.drawRect(100,60,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(100,60,100, 60);
+		
+		g2d.drawRect(200,60,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(200,60,100, 60);
+		
+		g2d.drawRect(300,60,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(300,60,100, 60);
+		
+		g2d.drawRect(400,60,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(400,60,100, 60);
+		
+		g2d.drawRect(500,60,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(500,60,100, 60);
+		
+		g2d.drawRect(600,60,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(600,60,100, 60);
+		
+		g2d.drawRect(700,60,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(700,60,100, 60);
+		
+		g2d.drawRect(800,60,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(800,60,100, 60);
+		
+		g2d.drawRect(900,60,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(900,60,100, 60);
+		
+		g2d.drawRect(0,120,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(0,120,100, 60);
+		
+		g2d.drawRect(100,120,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(100,120,100, 60);
+		
+		g2d.drawRect(200,120,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(200,120,100, 60);
+		
+		g2d.drawRect(300,120,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(300,120,100, 60);
+		
+		g2d.drawRect(400,120,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(400,120,100, 60);
+		
+		g2d.drawRect(500,120,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(500,120,100, 60);
+		
+		g2d.drawRect(600,120,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(600,120,100, 60);
+		
+		g2d.drawRect(700,120,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(700,120,100, 60);
+		
+		g2d.drawRect(800,120,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(800,120,100, 60);
+		
+		g2d.drawRect(900,120,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(900,120,100, 60);
+		
+		g2d.drawRect(0,180,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(0,180,100, 60);
+		
+		g2d.drawRect(100,180,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(100,180,100, 60);
+		
+		g2d.drawRect(200,180,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(200,180,100, 60);
+		
+		g2d.drawRect(300,180,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(300,180,100, 60);
+		
+		g2d.drawRect(400,180,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(400,180,100, 60);
+		
+		g2d.drawRect(500,180,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(500,180,100, 60);
+		
+		g2d.drawRect(600,180,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(600,180,100, 60);
+		
+		g2d.drawRect(700,180,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(700,180,100, 60);
+		
+		g2d.drawRect(800,180,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(800,180,100, 60);
+		
+		g2d.drawRect(900,180,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(900,180,100, 60);
+		
+		g2d.drawRect(0,240,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(0,240,100, 60);
+		
+		g2d.drawRect(100,240,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(100,240,100, 60);
+		
+		g2d.drawRect(200,240,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(200,240,100, 60);
+		
+		g2d.drawRect(300,240,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(300,240,100, 60);
+		
+		g2d.drawRect(400,240,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(400,240,100, 60);
+		
+		g2d.drawRect(500,240,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(500,240,100, 60);
+		
+		g2d.drawRect(600,240,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(600,240,100, 60);
+		
+		g2d.drawRect(700,240,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(700,240,100, 60);
+		
+		g2d.drawRect(800,240,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(800,240,100, 60);
+		
+		g2d.drawRect(900,240,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(900,240,100, 60);
+		
+		g2d.drawRect(0,300,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(0,300,100, 60);
+		
+		g2d.drawRect(100,300,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(100,300,100, 60);
+		
+		g2d.drawRect(200,300,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(200,300,100, 60);
+		
+		g2d.drawRect(300,300,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(300,300,100, 60);
+		
+		g2d.drawRect(400,300,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(400,300,100, 60);
+		
+		g2d.drawRect(500,300,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(500,300,100, 60);
+		
+		g2d.drawRect(600,300,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(600,300,100, 60);
+		
+		g2d.drawRect(700,300,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(700,300,100, 60);
+		
+		g2d.drawRect(800,300,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(800,300,100, 60);
+		
+		g2d.drawRect(900,300,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(900,300,100, 60);
+		
+		g2d.drawRect(0,360,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(0,360,100, 60);
+		
+		g2d.drawRect(100,360,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(100,360,100, 60);
+		
+		g2d.drawRect(200,360,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(200,360,100, 60);
+		
+		g2d.drawRect(300,360,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(300,360,100, 60);
+		
+		g2d.drawRect(400,360,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(400,360,100, 60);
+		
+		g2d.drawRect(500,360,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(500,360,100, 60);
+		
+		g2d.drawRect(600,360,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(600,360,100, 60);
+		
+		g2d.drawRect(700,360,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(700,360,100, 60);
+		
+		g2d.drawRect(800,360,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(800,360,100, 60);
+		
+		g2d.drawRect(900,360,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(900,360,100, 60);
+		
+		g2d.drawRect(0,420,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(0,420,100, 60);
+		
+		g2d.drawRect(100,420,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(100,420,100, 60);
+		
+		g2d.drawRect(200,420,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(200,420,100, 60);
+		
+		g2d.drawRect(300,420,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(300,420,100, 60);
+		
+		g2d.drawRect(400,420,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(400,420,100, 60);
+		
+		g2d.drawRect(500,420,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(500,420,100, 60);
+		
+		g2d.drawRect(600,420,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(600,420,100, 60);
+		
+		g2d.drawRect(700,420,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(700,420,100, 60);
+		
+		g2d.drawRect(800,420,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(800,420,100, 60);
+		
+		g2d.drawRect(900,420,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(900,420,100, 60);
+		
+		g2d.drawRect(0,480,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(0,480,100, 60);
+		
+		g2d.drawRect(100,480,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(100,480,100, 60);
+		
+		g2d.drawRect(200,480,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(200,480,100, 60);
+		
+		g2d.drawRect(300,480,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(300,480,100, 60);
+		
+		g2d.drawRect(400,480,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(400,480,100, 60);
+		
+		g2d.drawRect(500,480,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(500,480,100, 60);
+		
+		g2d.drawRect(600,480,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(600,480,100, 60);
+		
+		g2d.drawRect(700,480,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(700,480,100, 60);
+		
+		g2d.drawRect(800,480,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(800,480,100, 60);
+		
+		g2d.drawRect(900,480,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(900,480,100, 60);
+		
+		g2d.drawRect(0,540,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(0,540,100, 60);
+		
+		g2d.drawRect(100,540,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(100,540,100, 60);
+		
+		g2d.drawRect(200,540,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(200,540,100, 60);
+		
+		g2d.drawRect(300,540,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(300,540,100, 60);
+		
+		g2d.drawRect(400,540,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(400,540,100, 60);
+		
+		g2d.drawRect(500,540,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(500,540,100, 60);
+		
+		g2d.drawRect(600,540,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(600,540,100, 60);
+		
+		g2d.drawRect(700,540,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(700,540,100, 60);
+		
+		g2d.drawRect(800,540,100,60);
+		g2d.setPaint(Color.GREEN);
+		g2d.fillRect(800,540,100, 60);
+		
+		g2d.drawRect(900,540,100,60);
+		g2d.setPaint(Color.YELLOW);
+		g2d.fillRect(900,540,100, 60);
+		
+		g2d.setPaint(Color.BLACK);
+		
+		// numbers
+		g2d.setFont(new Font("times",Font.BOLD,35));
+		g2d.drawString("100",20,40);
+		g2d.drawString("99",120,40);
+		g2d.drawString("98",220,40);	
+		g2d.drawString("97",320,40);
+		g2d.drawString("96",420,40);
+		g2d.drawString("95",520,40);
+		g2d.drawString("94",620,40);
+		g2d.drawString("93",720,40);
+		g2d.drawString("92",820,40);
+		g2d.drawString("91",920,40);
+		
+		g2d.drawString("81",20,100);
+		g2d.drawString("82",120,100);
+		g2d.drawString("83",220,100);	
+		g2d.drawString("84",320,100);
+		g2d.drawString("85",420,100);
+		g2d.drawString("86",520,100);
+		g2d.drawString("87",640,110);
+		g2d.drawString("88",720,100);
+		g2d.drawString("89",820,100);
+		g2d.drawString("90",920,100);
+		
+		g2d.drawString("80",20,160);
+		g2d.drawString("79",120,160);
+		g2d.drawString("78",220,160);	
+		g2d.drawString("77",320,160);
+		g2d.drawString("76",420,160);
+		g2d.drawString("75",520,160);
+		g2d.drawString("74",620,160);
+		g2d.drawString("73",720,160);
+		g2d.drawString("72",820,160);
+		g2d.drawString("71",920,160);
+		
+		g2d.drawString("61",20,220);
+		g2d.drawString("62",120,220);
+		g2d.drawString("63",220,220);	
+		g2d.drawString("64",320,220);
+		g2d.drawString("65",420,220);
+		g2d.drawString("66",520,220);
+		g2d.drawString("67",620,220);
+		g2d.drawString("68",720,220);
+		g2d.drawString("69",820,220);
+		g2d.drawString("70",920,220);
+		
+		g2d.drawString("60",20,280);
+		g2d.drawString("59",120,280);
+		g2d.drawString("58",220,280);	
+		g2d.drawString("57",320,280);
+		g2d.drawString("56",420,280);
+		g2d.drawString("55",520,280);
+		g2d.drawString("54",640,280);
+		g2d.drawString("53",720,280);
+		g2d.drawString("52",820,280);
+		g2d.drawString("51",920,280);
+		
+		g2d.drawString("41",20,340);
+		g2d.drawString("42",120,340);
+		g2d.drawString("43",220,340);	
+		g2d.drawString("44",320,340);
+		g2d.drawString("45",420,340);
+		g2d.drawString("46",520,340);
+		g2d.drawString("47",640,340);
+		g2d.drawString("48",720,340);
+		g2d.drawString("49",820,340);
+		g2d.drawString("50",920,340);
+		
+		g2d.drawString("40",20,400);
+		g2d.drawString("39",120,400);
+		g2d.drawString("38",220,400);	
+		g2d.drawString("37",320,400);
+		g2d.drawString("36",420,400);
+		g2d.drawString("35",520,400);
+		g2d.drawString("34",620,400);
+		g2d.drawString("33",720,400);
+		g2d.drawString("32",820,400);
+		g2d.drawString("31",940,400);
+		
+		g2d.drawString("21",20,460);
+		g2d.drawString("22",120,460);
+		g2d.drawString("23",220,460);	
+		g2d.drawString("24",320,460);
+		g2d.drawString("25",420,460);
+		g2d.drawString("26",520,460);
+		g2d.drawString("27",620,460);
+		g2d.drawString("28",720,460);
+		g2d.drawString("29",820,460);
+		g2d.drawString("30",920,460);
+		
+		g2d.drawString("20",20,520);
+		g2d.drawString("19",120,520);
+		g2d.drawString("18",220,520);	
+		g2d.drawString("17",320,520);
+		g2d.drawString("16",420,520);
+		g2d.drawString("15",520,520);
+		g2d.drawString("14",620,520);
+		g2d.drawString("13",720,520);
+		g2d.drawString("12",820,520);
+		g2d.drawString("11",920,520);
+		
+		g2d.drawString("1",20,580);
+		g2d.drawString("2",120,580);
+		g2d.drawString("3",220,580);	
+		g2d.drawString("4",320,580);
+		g2d.drawString("5",420,580);
+		g2d.drawString("6",520,580);
+		g2d.drawString("7",620,580);
+		g2d.drawString("8",720,580);
+		g2d.drawString("9",820,580);
+		g2d.drawString("10",920,580);
+		
+		//Ladders
+		
+		//ladder 1
+		g2d.setStroke(new BasicStroke(5));
+		g2d.drawLine(80, 135, 140, 45);
+		g2d.drawLine(60,130,120,40);
+		g2d.drawLine(115,50,130,60);
+		g2d.drawLine(100,70,115,80);
+		g2d.drawLine(90,90,105,100);
+		g2d.drawLine(75,110,90,120);
+		
+		//ladder 2
+		g2d.drawLine(880, 125, 940, 45);
+		g2d.drawLine(860,120,920,40);
+		g2d.drawLine(910,50,930,60);
+		g2d.drawLine(895,70,915,80);
+		g2d.drawLine(880,90,900,100);
+		
+		//ladder 3
+		g2d.drawLine(850,230,910,400);
+		g2d.drawLine(870,220,930,390);
+		g2d.drawLine(860,250,875,240);
+		g2d.drawLine(870,290,890,280);
+		g2d.drawLine(890,330,905,320);
+		g2d.drawLine(905,370,920,360);
+		
+		//ladder 4
+		g2d.drawLine(570,570,610,230);
+		g2d.drawLine(590,570,630,230);
+		g2d.drawLine(610,250,625,255);
+		g2d.drawLine(610,270,625,275);
+		g2d.drawLine(605,290,620,295);
+		g2d.drawLine(605,310,620,315);
+		g2d.drawLine(600,330,615,335);
+		g2d.drawLine(600,350,615,355);
+		g2d.drawLine(595,370,610,375);
+		g2d.drawLine(595,390,610,395);
+		g2d.drawLine(590,410,605,415);
+		g2d.drawLine(590,430,605,435);
+		g2d.drawLine(585,450,600,455);
+		g2d.drawLine(585,470,600,475);
+		g2d.drawLine(580,490,595,495);
+		g2d.drawLine(580,510,595,515);
+		g2d.drawLine(575,530,590,535);
+		g2d.drawLine(575,550,590,555);
+		
+		//ladder 5
+		g2d.drawLine(150,430,220,340);
+		g2d.drawLine(170,435,240,345);
+		g2d.drawLine(215,345,235,350);
+		g2d.drawLine(200,370,215,375);
+		g2d.drawLine(180,395,195,400);
+		g2d.drawLine(160,420,175,425);
+		
+		//Snakes
+		//Snake 1
+		g2d.setStroke(new BasicStroke(10));
+		g2d.setPaint(Color.RED);
+		g2d.drawLine(270,60,320,550);
+		g2d.setStroke(new BasicStroke(5));
+		g2d.drawOval(260,45,20, 20);
+		g2d.fillOval(260,45,20,20);
+		
+		//Snake 2
+		g2d.drawLine(120,360,50,580);
+		g2d.fillOval(115,350,15,15);
+		
+		//Snake 3
+		g2d.drawLine(620,50,560,160);
+		g2d.fillOval(610,45,15,15);
+		
+		//Snake 4
+		g2d.drawLine(720,110,660,210);
+		g2d.fillOval(710,105,15,15);
+	}
+}

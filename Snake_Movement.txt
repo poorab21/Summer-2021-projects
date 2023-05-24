@@ -1,0 +1,108 @@
+from tkinter import *
+window = Tk()
+Snake_body = []
+Snake_body_count = 3
+def Snake_Shift():
+    global Snake_body,c1
+    if c1.coords(Snake_body[-1])[2]>600:
+        c1.coords(Snake_body[-1],
+        10,
+        c1.coords(Snake_body[-1])[1],
+        30,
+        c1.coords(Snake_body[-1])[3])
+    elif c1.coords(Snake_body[-1])[3]>400:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        10,
+        c1.coords(Snake_body[-1])[2],
+        30)
+    elif c1.coords(Snake_body[-1])[0]<0:
+        c1.coords(Snake_body[-1],
+        570,
+        c1.coords(Snake_body[-1])[1],
+        590,
+        c1.coords(Snake_body[-1])[3])
+    elif c1.coords(Snake_body[-1])[1]<0:
+        c1.coords(Snake_body[-1],
+        c1.coords(Snake_body[-1])[0],
+        370,
+        c1.coords(Snake_body[-1])[2],
+        390)
+def Snake_Right(event):
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)):
+        if x==len(Snake_body)-1:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x])[0]+20,
+            c1.coords(Snake_body[x])[1],
+            c1.coords(Snake_body[x])[2]+20,
+            c1.coords(Snake_body[x])[3])
+        else:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x+1])[0],
+            c1.coords(Snake_body[x+1])[1],
+            c1.coords(Snake_body[x+1])[2],
+            c1.coords(Snake_body[x+1])[3])
+        Snake_Shift()
+def Snake_Down(event):
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)):
+        if x==len(Snake_body)-1:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x])[0],
+            c1.coords(Snake_body[x])[1]+20,
+            c1.coords(Snake_body[x])[2],
+            c1.coords(Snake_body[x])[3]+20)
+        else:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x+1])[0],
+            c1.coords(Snake_body[x+1])[1],
+            c1.coords(Snake_body[x+1])[2],
+            c1.coords(Snake_body[x+1])[3])
+        Snake_Shift()
+def Snake_Left(event):
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)):
+        if x==len(Snake_body)-1:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x])[0]-20,
+            c1.coords(Snake_body[x])[1],
+            c1.coords(Snake_body[x])[2]-20,
+            c1.coords(Snake_body[x])[3])
+        else:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x+1])[0],
+            c1.coords(Snake_body[x+1])[1],
+            c1.coords(Snake_body[x+1])[2],
+            c1.coords(Snake_body[x+1])[3])
+        Snake_Shift()
+def Snake_Up(event):
+    global Snake_body,c1
+    for x in range(0,len(Snake_body)):
+        if x==len(Snake_body)-1:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x])[0],
+            c1.coords(Snake_body[x])[1]-20,
+            c1.coords(Snake_body[x])[2],
+            c1.coords(Snake_body[x])[3]-20)
+        else:
+            c1.coords(Snake_body[x],
+            c1.coords(Snake_body[x+1])[0],
+            c1.coords(Snake_body[x+1])[1],
+            c1.coords(Snake_body[x+1])[2],
+            c1.coords(Snake_body[x+1])[3])
+        Snake_Shift()
+window.geometry("600x400")
+c1 = Canvas(window,width=600,height=400,bg="red")
+c1.pack()
+Snake_body.append(c1.create_rectangle(10,10,30,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(30,10,50,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(50,10,70,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(70,10,90,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(90,10,110,30,fill="yellow"))
+Snake_body.append(c1.create_rectangle(110,10,130,30,fill="green"))
+window.bind("<Right>",Snake_Right)
+window.bind("<Down>",Snake_Down)
+window.bind("<Left>",Snake_Left)
+window.bind("<Up>",Snake_Up)
+window.mainloop()
