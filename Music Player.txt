@@ -1,0 +1,178 @@
+import time
+from tkinter import *
+from PIL import Image,ImageTk
+from tkinter import filedialog
+import pygame
+from mutagen.mp3 import *
+from tkinter import ttk
+window=Tk()
+pygame.mixer.init()
+current_music=""
+current_music_file=""
+paused=False
+def Music_Length():
+    global current_music_file,s2,audio_slider
+    music=MP3(current_music_file)
+    s2.config(text=str(time.strftime("%M:%S",time.gmtime(music.info.length))))
+    audio_slider.config(to=int(music.info.length),value=0)
+def Play():
+    global music_screen,current_music,paused,current_music_file
+    if paused==True and current_music==music_screen.get(ACTIVE):
+        pygame.mixer.music.unpause()
+        paused=False
+    elif music_screen.curselection():
+        filename = str(music_screen.get(ACTIVE)) + ".mp3"
+        current_music_file=filename
+        Music_Length()
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play()
+        current_music=music_screen.get(ACTIVE)
+        paused=False
+def Stop():
+    global music_screen,paused,current_music,s2
+    pygame.mixer.music.stop()
+    music_screen.selection_clear(0,END)
+    paused=False
+    current_music=""
+    s2.config(text="00:00")
+def Pause():
+    global paused
+    pygame.mixer.music.pause()
+    paused=True
+def add_song():
+    global music_screen
+    song_name=filedialog.askopenfilename(initialdir="C:/Users/purab/PycharmProjects/pythonProject3",title="Choose Song",
+                                         filetypes=(("mp3 files","*.mp3"),))
+    if song_name:
+        song=str(song_name)
+        song=song.replace("C:/Users/purab/PycharmProjects/pythonProject3/",'')
+        song=song.replace(".mp3",'')
+        music_screen.insert(END,song)
+def add_songs():
+    global music_screen
+    filenames=filedialog.askopenfilenames(initialdir="C:/Users/purab/PycharmProjects/pythonProject3",
+                                          filetypes=(("mp3 files","*.mp3"),))
+    if filenames:
+        for files in filenames:
+            file=str(files)
+            file=file.replace("C:/Users/purab/PycharmProjects/pythonProject3/","")
+            file=file.replace(".mp3","")
+            music_screen.insert(END,file)
+def Next():
+    global music_screen,paused,current_music,current_music_file
+    current_song=music_screen.curselection()[0]
+    next_song=(current_song+1)%(music_screen.size())
+    song_name=music_screen.get(next_song)
+    song_name=song_name+".mp3"
+    current_music_file=song_name
+    Music_Length()
+    pygame.mixer.music.load(song_name)
+    pygame.mixer.music.play()
+    music_screen.selection_clear(0,END)
+    music_screen.selection_set(next_song)
+    music_screen.activate(next_song)
+    paused=False
+    current_music=music_screen.get(ACTIVE)
+def Previous():
+    global music_screen,paused,current_music,current_music_file
+    paused=False
+    current_song=music_screen.curselection()[0]
+    if current_song==0:
+        current_song=music_screen.size()-1
+    else:
+        current_song=(current_song-1)%(music_screen.size())
+    next_song=music_screen.get(current_song)
+    song_name=next_song+".mp3"
+    current_music_file=song_name
+    Music_Length()
+    pygame.mixer.music.load(song_name)
+    pygame.mixer.music.play()
+    music_screen.selection_clear(0,END)
+    music_screen.selection_set(current_song)
+    music_screen.activate(current_song)
+    current_music = music_screen.get(ACTIVE)
+def delete_song():
+    global paused,current_music,s1,s2
+    if music_screen.get(ACTIVE)==current_music:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
+        s1.config(text="00:00")
+        s2.config(text="00:00")
+        music_screen.selection_clear(0,END)
+    music_screen.delete(ACTIVE)
+    paused=False
+def delete_all():
+    global music_screen,paused,s1,s2
+    music_screen.delete(0,END)
+    pygame.mixer.music.stop()
+    pygame.mixer.music.unload()
+    s1.config(text="00:00")
+    s2.config(text="00:00")
+    paused=False
+def Increment():
+    global s1,audio_slider
+    audio_duration = int(pygame.mixer.music.get_pos()/1000)
+    s1.config(text=time.strftime("%M:%S",time.gmtime(audio_duration)))
+    audio_slider.set(audio_duration)
+    s1.after(1000,Increment)
+def Volume_Change(a,b,c):
+    global volume_slider
+    pygame.mixer.music.set_volume(volume_slider.get())
+menubar=Menu(window)
+window.config(menu=menubar)
+add_menu=Menu(menubar,tearoff=False)
+
+menubar.add_cascade(label="Add",menu=add_menu)
+add_menu.add_command(label="Add a Song to the Playlist",command=add_song)
+add_menu.add_command(label="Add multiple songs to the Playlist",command=add_songs)
+
+remove_menu=Menu(menubar,tearoff=False)
+menubar.add_cascade(label="Remove",menu=remove_menu)
+remove_menu.add_command(label="Remove song from Playlist",command=delete_song)
+remove_menu.add_command(label="Remove all song from Playlist",command=delete_all)
+
+music_screen = Listbox(window,width=100,bg="black",fg="white",selectbackground="white"
+                       ,selectforeground="black")
+music_screen.place(x=350,y=20)
+
+back_button=Image.open('back.jpg')
+pause_button=Image.open('pause.png')
+play_button=Image.open('play.png')
+stop_button=Image.open('stop.png')
+next_button=Image.open('next.jpg')
+
+img1=ImageTk.PhotoImage(back_button.resize((90,60)))
+img2=ImageTk.PhotoImage(pause_button.resize((90,60)))
+img3=ImageTk.PhotoImage(play_button.resize((90,60)))
+img4=ImageTk.PhotoImage(stop_button.resize((90,60)))
+img5=ImageTk.PhotoImage(next_button.resize((90,60)))
+
+btn1=Button(window,image=img1,width=90,bd=0,command=Previous)
+btn1.place(x=410,y=185)
+btn2=Button(window,image=img2,bd=0,command=Pause)
+btn2.place(x=505,y=185)
+btn3=Button(window,image=img3,bd=0,command=Play)
+btn3.place(x=589,y=185)
+btn4=Button(window,image=img4,bd=0,command=Stop)
+btn4.place(x=683,y=185)
+btn5=Button(window,image=img5,bd=0,command=Next)
+btn5.place(x=778,y=185)
+
+s1=Label(window,text="",bd=1,relief=SUNKEN,font=("times",20))
+s1.place(x=150,y=100)
+s1.after(1000,Increment)
+s2=Label(window,text="",bd=1,relief=SUNKEN,font=("times",20))
+s2.place(x=1020,y=100)
+
+v=IntVar()
+audio_slider = ttk.Scale(window,from_=0,to=100,orient=HORIZONTAL,length=600,variable=v)
+audio_slider.place(x=350,y=300)
+
+l1=LabelFrame(window,text="Volumn")
+l1.place(x=1130,y=50)
+v2=IntVar()
+volume_slider = Scale(l1,from_=0.0,to=1.0,orient=VERTICAL,variable=v2,resolution=0.010)
+volume_slider.pack()
+volume_slider.set(1.0)
+v2.trace('w',Volume_Change)
+window.mainloop()

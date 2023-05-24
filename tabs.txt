@@ -1,0 +1,443 @@
+<style>
+    *{
+        margin:0px;
+    }
+    body{
+        margin:0px;
+    }
+    #cat-heading{
+        background-color:red;
+        text-align:center;
+        font-style: italic;
+    }
+    #tabs{
+        display: flex;
+    }
+    #tab1-btn,#tab2-btn,#tab3-btn{
+        flex-grow: 1;
+    }
+    #cat-content{
+        background-color:lightseagreen;
+    }
+    #cat-content > ul{
+        list-style-type: none;
+        display:flex;
+        justify-content: space-evenly;
+    }
+    #cat-content > ul > li{
+        font-size:20px;
+        text-decoration-line: underline;
+        font-style: italic;
+    }
+    #cat-description{
+        border:1px solid black;
+        width:300px;
+        height:400px;
+        background-color:limegreen;
+        float:left;
+    }
+    #cat-list > ul{
+        display:flex;
+        flex-direction: column;
+        line-height: 40px;
+    }
+    #cat-list > ul > li{
+        font-weight: bolder;
+    }
+    #cat-list{
+        margin-left:25%;
+    }
+    #cat-paragraph{
+        background-color:tomato;
+        width:100%;
+        height:402px;
+        text-align: center;
+        box-sizing: border-box;
+        border:1px solid black;
+    }
+    #cat-paragraph > p{
+        padding-top:10px;
+        font-weight: bolder;
+        color:yellow;
+        font-size: 20px;
+    }
+    #cat-footer{
+        background-color: violet;
+    }
+    #cat-footer > ul{
+        display: flex;
+        list-style-type: none;
+        justify-content: space-evenly;
+    }
+    #cat-footer > ul > li{
+        font-size:20px;
+    }
+    #container{
+        border:1px solid black;
+        height:400px;
+        background-color:slateblue;
+        display: flex;
+    }
+    #display-1,#display-2,#display-3{
+        border:1px solid black;
+        width:300px;
+        height:350px;
+        padding:10px;
+        color:white;
+        text-align: center;
+        margin:20px;
+        margin-left:100px;
+        box-sizing: border-box;
+        background-color:coral;
+    }
+    #images{
+        border:1px solid black;
+        display: flex;
+        height:350px;
+        background-color:rgb(34, 0, 255)
+    }
+    #img1,#img2{
+        flex-grow: 1;
+        margin:10px;
+    }
+</style>
+<script>
+    let x=1;
+    function func(x){   
+        let y =document.body.children;
+        while(y.length>1){
+        for(let i=0;i<y.length;i++){
+            if(y[i].id != "tabs"){
+                y[i].remove();
+            }
+        }
+    }
+     if(x==1){   
+        let cat_heading = document.createElement("div");
+        cat_heading.setAttribute("id","cat-heading");
+        let cat_h1 = document.createElement("h1")
+        cat_h1.innerHTML="The Daily Kitten";
+        cat_heading.appendChild(cat_h1);
+        document.getElementById("tabs").after(cat_heading);
+
+        let cat_content = document.createElement("div");
+        cat_content.setAttribute("id","cat-content");
+        let cat_content_UL = document.createElement("ul");
+        let UL_li_1 = document.createElement("li");
+        UL_li_1.innerHTML="Feral Adventures";
+        let UL_li_2 = document.createElement("li");
+        UL_li_2.innerHTML="Kibble Kibbitz";
+        let UL_li_3 = document.createElement("li");
+        UL_li_3.innerHTML="Tall Twitch Tales";
+        let UL_li_4 = document.createElement("li");
+        UL_li_4.innerHTML="Tall Twitch 2";
+        cat_content_UL.appendChild(UL_li_1);
+        cat_content_UL.appendChild(UL_li_2);
+        cat_content_UL.appendChild(UL_li_3);
+        cat_content_UL.appendChild(UL_li_4);
+        cat_content.appendChild(cat_content_UL);
+        document.getElementById("cat-heading").after(cat_content);
+    
+        let cat_display_container = document.createElement("div");
+        cat_display_container.setAttribute("id","cat-display-container");
+        
+        let cat_description = document.createElement("div");
+        cat_description.setAttribute("id","cat-description");
+        
+        let cat_img = document.createElement("div");
+        cat_img.setAttribute("id","cat-img");
+        
+        let img_cat = document.createElement("img");
+        img_cat.setAttribute("src","cat.jpg");
+        img_cat.setAttribute("width","100%");
+        
+        cat_img.appendChild(img_cat)
+
+        let HR = document.createElement("hr");
+
+        let cat_list = document.createElement("div");
+        cat_list.setAttribute("id","cat-list");
+
+        let cat_list_ul = document.createElement("ul");
+        
+        let cat_list_li_1 = document.createElement("li")
+        cat_list_li_1.innerHTML="Feature 1";
+
+        let cat_list_li_2 = document.createElement("li")
+        cat_list_li_2.innerHTML="Feature 2";
+
+        let cat_list_li_3 = document.createElement("li")
+        cat_list_li_3.innerHTML="Feature 3";
+
+        let cat_list_li_4 = document.createElement("li")
+        cat_list_li_4.innerHTML="Feature 4";
+
+        cat_list_ul.appendChild(cat_list_li_1);
+        cat_list_ul.appendChild(cat_list_li_2);
+        cat_list_ul.appendChild(cat_list_li_3);
+        cat_list_ul.appendChild(cat_list_li_4);
+        
+        cat_list.appendChild(cat_list_ul);
+
+        cat_description.appendChild(cat_img)
+        cat_description.appendChild(HR);
+        cat_description.appendChild(cat_list)
+
+        cat_display_container.appendChild(cat_description);
+        cat_content.after(cat_display_container);
+
+        let cat_paragraph = document.createElement("div");
+        cat_paragraph.setAttribute("id","cat-paragraph");
+        let cat_paragraph_P = document.createElement("p");
+        cat_paragraph_P.innerHTML="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur adipisci natus assumenda, fuga nam quia dolore quaerat minus iste reprehenderit eum delectus illum suscipit, sint dolorem distinctio impedit officia voluptatibus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis minima fuga accusamus repellat voluptas minus debitis! Necessitatibus voluptas aliquam libero exercitationem tempore, consequuntur cupiditate. Consequuntur, tempora neque? Fugiat, ad officiis! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta delectus, eos aliquam ipsa et commodi quae, vero fugiat impedit quos quod tempore consequatur, consectetur maxime asperiores ipsum ratione natus eius. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere dolorem labore amet porro sunt illo odit fugiat iste expedita, nihil sed quod vitae aperiam fugit, dolore, vero blanditiis est praesentium. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit temporibus enim, nam officia vitae impedit ratione quibusdam libero voluptas quas inventore nostrum totam molestias! Autem, doloremque cumque. Fugiat, maiores aliquid! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime dolore harum blanditiis officiis nemo eos dolorem praesentium alias, impedit fuga delectus doloremque commodi eum ut velit optio aliquid nesciunt corporis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero quia consectetur enim aliquam atque doloribus laboriosam totam, eius dolores voluptates perferendis ipsa dicta. Voluptates quam recusandae aperiam fuga explicabo magni?";
+        cat_paragraph.appendChild(cat_paragraph_P);
+
+        let cat_footer = document.createElement("div");
+        cat_footer.setAttribute("id","cat-footer");
+        let cat_footer_ul = document.createElement("ul");
+        let cat_footer_li_1 = document.createElement("li");
+        cat_footer_li_1.innerHTML="footer 1";
+        let cat_footer_li_2 = document.createElement("li");
+        cat_footer_li_2.innerHTML="footer 2";
+        let cat_footer_li_3 = document.createElement("li");
+        cat_footer_li_3.innerHTML="footer 3";
+        cat_footer_ul.appendChild(cat_footer_li_1);
+        cat_footer_ul.appendChild(cat_footer_li_2);
+        cat_footer_ul.appendChild(cat_footer_li_3);
+        cat_footer.appendChild(cat_footer_ul);
+
+        cat_display_container.appendChild(cat_paragraph);
+        cat_display_container.appendChild(cat_footer);
+    }
+    else if(x==2){
+        let Container = document.createElement("div");
+        Container.setAttribute("id","container");
+        document.getElementById("tabs").after(Container);
+        let display1 = document.createElement("div");
+        display1.setAttribute("id","display-1");
+        Container.appendChild(display1);
+        let display1_h4 = document.createElement("h4");
+        display1_h4.innerHTML="Enterprise";
+        display1.appendChild(display1_h4);
+        let display1_BR = document.createElement("br");
+        let display1_HR = document.createElement("hr");
+        let display1_BR_2 = document.createElement("br");
+        display1.appendChild(display1_BR);
+        display1.appendChild(display1_HR);
+        display1.appendChild(display1_BR_2);
+
+        let display1_h1 = document.createElement("h1");
+        display1_h1.setAttribute("style","font-size:40px");
+        display1_h1.innerHTML="$59";
+        display1.appendChild(display1_h1);
+
+        let display1_p = document.createElement("p");
+        display1_p.innerHTML="Per Month";
+        display1.appendChild(display1_p);
+
+        let display1_BR_3=document.createElement("br");
+        let display1_BR_4=document.createElement("br");
+        display1.appendChild(display1_BR_3);
+        display1.appendChild(display1_BR_4);
+
+        let display1_p2 = document.createElement("p");
+        display1_p2.innerHTML="10GB Disk Space";
+        display1.appendChild(display1_p2);
+
+        let display1_BR_5 = document.createElement("br");
+        display1.appendChild(display1_BR_5);
+
+        let display1_p3 = document.createElement("p");
+        display1_p3.innerHTML = "100GB Monthly Bandwidth";
+        display1.appendChild(display1_p3);
+
+        let display1_BR_6 = document.createElement("br");
+        display1.appendChild(display1_BR_6);
+
+        let display1_p4 = document.createElement("p");
+        display1_p4.innerHTML = "20 Email Accounts";
+        display1.appendChild(display1_p4);
+
+        let display1_BR_7 = document.createElement("br");
+        display1.appendChild(display1_BR_7);
+
+        let display1_p5 = document.createElement("p");
+        display1_p5.innerHTML = "Unlimited Subdomains";
+        display1.appendChild(display1_p5);
+
+        let display1_BR_8 = document.createElement("br");
+        display1.appendChild(display1_BR_8);
+
+        let Button_display1 = document.createElement("button");
+        Button_display1.setAttribute("style","width:100%;height:30px;border-radius: 10px;")
+        Button_display1.innerHTML="Sign Up";
+        display1.appendChild(Button_display1);
+
+        let display2 = document.createElement("div");
+        display2.setAttribute("id","display-2");
+        Container.appendChild(display2);
+        let display2_h4 = document.createElement("h4");
+        display2_h4.innerHTML="Professional";
+        display2.appendChild(display2_h4);
+        let display2_BR = document.createElement("br");
+        let display2_HR = document.createElement("hr");
+        let display2_BR_2 = document.createElement("br");
+        display2.appendChild(display2_BR);
+        display2.appendChild(display2_HR);
+        display2.appendChild(display2_BR_2);
+
+        let display2_h1 = document.createElement("h1");
+        display2_h1.setAttribute("style","font-size:40px");
+        display2_h1.innerHTML="$29";
+        display2.appendChild(display2_h1);
+
+        let display2_p = document.createElement("p");
+        display2_p.innerHTML="Per Month";
+        display2.appendChild(display2_p);
+
+        let display2_BR_3=document.createElement("br");
+        let display2_BR_4=document.createElement("br");
+        display2.appendChild(display2_BR_3);
+        display2.appendChild(display2_BR_4);
+
+        let display2_p2 = document.createElement("p");
+        display2_p2.innerHTML="10GB Disk Space";
+        display2.appendChild(display2_p2);
+
+        let display2_BR_5 = document.createElement("br");
+        display2.appendChild(display2_BR_5);
+
+        let display2_p3 = document.createElement("p");
+        display2_p3.innerHTML = "100GB Monthly Bandwidth";
+        display2.appendChild(display2_p3);
+
+        let display2_BR_6 = document.createElement("br");
+        display2.appendChild(display2_BR_6);
+
+        let display2_p4 = document.createElement("p");
+        display2_p4.innerHTML = "20 Email Accounts";
+        display2.appendChild(display2_p4);
+
+        let display2_BR_7 = document.createElement("br");
+        display2.appendChild(display2_BR_7);
+
+        let display2_p5 = document.createElement("p");
+        display2_p5.innerHTML = "Unlimited Subdomains";
+        display2.appendChild(display2_p5);
+
+        let display2_BR_8 = document.createElement("br");
+        display2.appendChild(display2_BR_8);
+
+        let Button_display2 = document.createElement("button");
+        Button_display2.setAttribute("style","width:100%;height:30px;border-radius: 10px;")
+        Button_display2.innerHTML="Sign Up";
+        display2.appendChild(Button_display2);
+
+        let display3 = document.createElement("div");
+        display3.setAttribute("id","display-3");
+        Container.appendChild(display3);
+        let display3_h4 = document.createElement("h4");
+        display3_h4.innerHTML="Professional";
+        display3.appendChild(display3_h4);
+        let display3_BR = document.createElement("br");
+        let display3_HR = document.createElement("hr");
+        let display3_BR_2 = document.createElement("br");
+        display3.appendChild(display3_BR);
+        display3.appendChild(display3_HR);
+        display3.appendChild(display3_BR_2);
+
+        let display3_h1 = document.createElement("h1");
+        display3_h1.setAttribute("style","font-size:40px");
+        display3_h1.innerHTML="$29";
+        display3.appendChild(display3_h1);
+
+        let display3_p = document.createElement("p");
+        display3_p.innerHTML="Per Month";
+        display3.appendChild(display3_p);
+
+        let display3_BR_3=document.createElement("br");
+        let display3_BR_4=document.createElement("br");
+        display3.appendChild(display3_BR_3);
+        display3.appendChild(display3_BR_4);
+
+        let display3_p2 = document.createElement("p");
+        display3_p2.innerHTML="10GB Disk Space";
+        display3.appendChild(display3_p2);
+
+        let display3_BR_5 = document.createElement("br");
+        display3.appendChild(display3_BR_5);
+
+        let display3_p3 = document.createElement("p");
+        display3_p3.innerHTML = "100GB Monthly Bandwidth";
+        display3.appendChild(display3_p3);
+
+        let display3_BR_6 = document.createElement("br");
+        display3.appendChild(display3_BR_6);
+
+        let display3_p4 = document.createElement("p");
+        display3_p4.innerHTML = "20 Email Accounts";
+        display3.appendChild(display3_p4);
+
+        let display3_BR_7 = document.createElement("br");
+        display3.appendChild(display3_BR_7);
+
+        let display3_p5 = document.createElement("p");
+        display3_p5.innerHTML = "Unlimited Subdomains";
+        display3.appendChild(display3_p5);
+
+        let display3_BR_8 = document.createElement("br");
+        display3.appendChild(display3_BR_8);
+
+        let Button_display3 = document.createElement("button");
+        Button_display3.setAttribute("style","width:100%;height:30px;border-radius: 10px;")
+        Button_display3.innerHTML="Sign Up";
+        display3.appendChild(Button_display3);
+    }
+    else if(x==3){
+        let IMAGES = document.createElement("div");
+        IMAGES.setAttribute("id","images");
+
+        let IMG_1 = document.createElement("div");
+        IMG_1.setAttribute("id","img1");
+
+        let Img = document.createElement("img");
+        Img.setAttribute("src","img1.jpg");
+        Img.setAttribute("width","100%");
+        Img.setAttribute("height","100%");
+
+        IMG_1.appendChild(Img);
+        IMAGES.appendChild(IMG_1);
+
+        let IMG_2 = document.createElement("div");
+        IMG_2.setAttribute("id","img1");
+
+        let Img2 = document.createElement("img");
+        Img2.setAttribute("src","img2.jpg");
+        Img2.setAttribute("width","100%");
+        Img2.setAttribute("height","100%");
+
+        IMG_2.appendChild(Img2);
+        IMAGES.appendChild(IMG_2);
+        document.getElementById("tabs").after(IMAGES);
+    }
+}
+</script>
+<body>
+    <div id="tabs">
+        <div id="tab1-btn">
+            <button style="width:100%" onclick="func(1)">
+                Tab 1
+            </button>
+        </div>
+        <div id="tab2-btn">
+            <button style="width:100%" onclick="func(2)">
+                Tab 2
+            </button>
+        </div>
+        <div id="tab3-btn">
+            <button style="width:100%" onclick="func(3)">
+                Tab 3
+            </button>
+        </div>
+    </div>  
+</body>
